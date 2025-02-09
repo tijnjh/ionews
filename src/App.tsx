@@ -38,9 +38,9 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/" exact={true}>
-          <Redirect to="/home" />
+          <Redirect to="/" />
         </Route>
-        <Route path="/home" exact={true}>
+        <Route path="/" exact={true}>
           <Home />
         </Route>
         <Route path="/post/:id">

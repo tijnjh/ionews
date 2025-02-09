@@ -60,7 +60,7 @@ function ViewMessage() {
       <IonHeader translucent>
         <IonToolbar>
           <IonButtons slot="start">
-            <IonBackButton text="Frontpage" defaultHref="/home"></IonBackButton>
+            <IonBackButton text="Frontpage" defaultHref="/"></IonBackButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
