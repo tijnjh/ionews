@@ -22,9 +22,9 @@ export default function StoryListItem({ story }: { story: any }) {
           {story.score}
           <IonIcon icon={arrowUp} />
           &bull;{" "}
-          {formatDistance(subDays(story.time * 1000, 3), new Date(), {
+          {formatDistance(subDays(story.time * 1000, 0), new Date(), {
             addSuffix: true,
-          })}
+          }).replace("about", "")}
         </h3>
       </IonLabel>
       <IonNote>{story.descendants}</IonNote>
