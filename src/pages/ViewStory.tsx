@@ -19,8 +19,8 @@ import {
 } from "@ionic/react";
 import { useParams } from "react-router";
 import "./ViewStory.css";
-import { formatDistance, subDays } from "date-fns";
 import { arrowUp } from "ionicons/icons";
+import { formatUrl, relativify } from "../lib/helpers";
 
 async function fetchStory(id: number) {
   const url = `https://node-hnapi.herokuapp.com/item/${id}`;
@@ -107,10 +107,20 @@ function ViewMessage() {
                   <h3 style={{ display: "flex", alignItems: "center" }}>
                     {story.points}
                     <IonIcon icon={arrowUp} />
-                    &bull;{" "}
-                    {formatDistance(subDays(story.time * 1000, 3), new Date(), {
-                      addSuffix: true,
-                    })}
+                    <span style={{ marginInline: ".5rem" }}>&bull;</span>
+                    <span style={{ flexShrink: 0 }}>
+                      {relativify(story.time)}
+                    </span>
+                    <span style={{ marginInline: ".5rem" }}>&bull;</span>
+                    <span
+                      style={{
+                        whiteSpace: "nowrap",
+                        textOverflow: "ellipsis",
+                        overflow: "hidden",
+                      }}
+                    >
+                      {formatUrl(story.url)}
+                    </span>
                   </h3>
                 </IonLabel>
               </IonItem>
@@ -122,9 +132,15 @@ function ViewMessage() {
                   <IonLabel>
                     <p
                       onClick={() => toggleCollapse(comment.id)}
-                      style={{ cursor: "pointer" }}
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        cursor: "pointer",
+                      }}
                     >
                       {comment.user}
+                      <span style={{ marginInline: ".5rem" }}>&bull;</span>
+                      {relativify(comment.time)}
                     </p>
                     <div
                       className={`comment-content ${
@@ -151,7 +167,14 @@ function ViewMessage() {
                         style={{ paddingLeft: `${reply.level}rem` }}
                       >
                         <IonLabel>
-                          <p>{reply.user}</p>
+                          <p style={{ display: "flex", alignItems: "center" }}>
+                            {reply.user}
+                            <span style={{ marginInline: ".5rem" }}>
+                              &bull;
+                            </span>
+                            {relativify(reply.time)}
+                          </p>
+
                           <div
                             className={`comment-content ${
                               collapsedThreads.has(comment.id)

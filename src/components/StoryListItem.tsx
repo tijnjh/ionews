@@ -1,8 +1,7 @@
 import { IonAvatar, IonIcon, IonItem, IonLabel, IonNote } from "@ionic/react";
-import { formatDistance, subDays } from "date-fns";
 import { arrowUp } from "ionicons/icons";
+import { formatUrl, relativify } from "../lib/helpers";
 
-// const StoryListItem: React.FC<{ story: Story }> = ({ story }) => {
 export default function StoryListItem({ story }: { story: any }) {
   return (
     <IonItem routerLink={`/story/${story.id}`} detail={true}>
@@ -21,10 +20,18 @@ export default function StoryListItem({ story }: { story: any }) {
         <h3 style={{ display: "flex", alignItems: "center" }}>
           {story.score}
           <IonIcon icon={arrowUp} />
-          &bull;{" "}
-          {formatDistance(subDays(story.time * 1000, 0), new Date(), {
-            addSuffix: true,
-          }).replace("about", "")}
+          <span style={{ marginInline: ".5rem" }}>&bull;</span>
+          <span style={{ flexShrink: 0 }}>{relativify(story.time)}</span>
+          <span style={{ marginInline: ".5rem" }}>&bull;</span>
+          <span
+            style={{
+              whiteSpace: "nowrap",
+              textOverflow: "ellipsis",
+              overflow: "hidden",
+            }}
+          >
+            {formatUrl(story.url)}
+          </span>
         </h3>
       </IonLabel>
       <IonNote>{story.descendants}</IonNote>
