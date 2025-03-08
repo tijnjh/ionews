@@ -47,7 +47,7 @@ export default function StoryListItem({ story }: { story: any }) {
         <IonNote>{story.descendants}</IonNote>
       </IonItem>
       <IonItemOptions side="start">
-        <IonItemOption href={story.url} target="_blank">
+        <IonItemOption onClick={() => window.open(story.url, "_blank")}>
           Open URL
         </IonItemOption>
       </IonItemOptions>
