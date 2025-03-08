@@ -11,7 +11,6 @@ import {
   IonInfiniteScrollContent,
   IonRefresher,
   IonRefresherContent,
-  useIonLoading,
   IonSpinner,
 } from "@ionic/react";
 

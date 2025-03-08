@@ -11,11 +11,9 @@ import {
   IonPage,
   IonText,
   IonToolbar,
-  IonRefresher,
-  IonRefresherContent,
-  IonLoading,
   useIonViewWillEnter,
   IonIcon,
+  IonSpinner,
 } from "@ionic/react";
 import { useParams } from "react-router";
 import "./ViewStory.css";
@@ -34,7 +32,6 @@ function ViewMessage() {
     new Set()
   );
   const [loading, setLoading] = useState(true);
-  const [refreshing, setRefreshing] = useState(false);
   const params = useParams<{ id: string }>();
 
   const loadStory = async (id: number) => {
@@ -42,7 +39,6 @@ function ViewMessage() {
     const storyData = await fetchStory(id);
     setStory(storyData);
     setLoading(false);
-    setRefreshing(false);
   };
 
   useIonViewWillEnter(() => {
@@ -82,11 +78,9 @@ function ViewMessage() {
       </IonHeader>
 
       <IonContent color="light">
-        <IonRefresher slot="fixed" onIonRefresh={handleRefresh}>
-          <IonRefresherContent></IonRefresherContent>
-        </IonRefresher>
-
-        <IonLoading isOpen={loading} message="Loading..." />
+        {!!loading && (
+          <IonSpinner style={{ width: "100%", marginBlockStart: "2rem" }} />
+        )}
 
         {story ? (
           <>
