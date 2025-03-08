@@ -47,7 +47,9 @@ export default function StoryListItem({ story }: { story: any }) {
         <IonNote>{story.descendants}</IonNote>
       </IonItem>
       <IonItemOptions side="start">
-        <IonItemOption href={story.url}>Open URL</IonItemOption>
+        <IonItemOption href={story.url} target="_blank">
+          Open URL
+        </IonItemOption>
       </IonItemOptions>
     </IonItemSliding>
   );
