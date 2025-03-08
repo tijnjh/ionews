@@ -12,6 +12,7 @@ import {
   IonRefresher,
   IonRefresherContent,
   useIonLoading,
+  IonSpinner,
 } from "@ionic/react";
 
 const STORIES_PER_PAGE = 25;
@@ -34,20 +35,13 @@ async function fetchStories(ids: number[]) {
 export default function Home() {
   const [stories, setStories] = useState<any[]>([]);
   const [page, setPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const [present, dismiss] = useIonLoading();
-
-  useEffect(() => {
-    isLoading ? present() : dismiss();
-  }, [isLoading]);
+  const [showInitialSpinner, setShowInitialSpinner] = useState(true);
 
   useEffect(() => {
     loadStories(page);
   }, []);
 
   async function loadStories(page: number) {
-    setIsLoading(true);
     try {
       const storyIds = await fetchStoryIds(page, STORIES_PER_PAGE);
       const fetchedStories = await fetchStories(storyIds);
@@ -55,7 +49,7 @@ export default function Home() {
     } catch (error) {
       console.error("Failed to load stories:", error);
     } finally {
-      setIsLoading(false);
+      setShowInitialSpinner(false);
     }
   }
 
@@ -90,6 +84,10 @@ export default function Home() {
             <IonTitle size="large">Frontpage</IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        {!!showInitialSpinner && (
+          <IonSpinner style={{ width: "100%", marginBlockStart: "2rem" }} />
+        )}
 
         <IonList>
           {stories.map((story) => (
