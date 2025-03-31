@@ -8,13 +8,22 @@ import {
   IonLabel,
   IonNote,
 } from "@ionic/react";
-import { arrowUp } from "ionicons/icons";
+import { arrowUp, openOutline } from "ionicons/icons";
 import { formatUrl, relativify } from "../lib/helpers";
 
 export default function StoryListItem({ story }: { story: any }) {
   return (
     <IonItemSliding>
-      <IonItem routerLink={`/story/${story.id}`} detail={true}>
+      <IonItem
+        routerLink={`/story/${story.id}`}
+        draggable={false}
+        detail={true}
+        style={{
+          userSelect: "none",
+          "-webkit-user-drag": "none",
+          "-moz-user-drag": "none",
+        }}
+      >
         <IonAvatar
           aria-hidden="true"
           slot="start"
@@ -48,7 +57,7 @@ export default function StoryListItem({ story }: { story: any }) {
       </IonItem>
       <IonItemOptions side="start">
         <IonItemOption onClick={() => window.open(story.url, "_blank")}>
-          Open URL
+          <IonIcon slot="icon-only" icon={openOutline}></IonIcon>
         </IonItemOption>
       </IonItemOptions>
     </IonItemSliding>

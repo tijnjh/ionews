@@ -14,10 +14,11 @@ import {
   useIonViewWillEnter,
   IonIcon,
   IonSpinner,
+  IonButton,
 } from "@ionic/react";
 import { useParams } from "react-router";
 import "./ViewStory.css";
-import { arrowUp } from "ionicons/icons";
+import { arrowUp, openOutline } from "ionicons/icons";
 import { formatUrl, relativify } from "../lib/helpers";
 
 async function fetchStory(id: number) {
@@ -73,6 +74,15 @@ function ViewMessage() {
         <IonToolbar>
           <IonButtons slot="start">
             <IonBackButton text="Frontpage" defaultHref="/"></IonBackButton>
+          </IonButtons>
+
+          <IonButtons slot="end">
+            {!!story && (
+              <IonButton href={story.url}>
+                {formatUrl(story.url)}
+                <IonIcon slot="end" icon={openOutline} />
+              </IonButton>
+            )}
           </IonButtons>
         </IonToolbar>
       </IonHeader>

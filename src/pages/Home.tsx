@@ -76,8 +76,8 @@ export default function Home() {
       <IonHeader>
         <IonToolbar>
           <IonButtons slot="end">
-            <IonButton href="https://tijn.dev">
-              <IonIcon slot="icon-only" icon={logoGithub}></IonIcon>
+            <IonButton href="https://github.com/tijnjh/hn">
+              <IonIcon slot={"icon-only"} icon={logoGithub}></IonIcon>
             </IonButton>
           </IonButtons>
           <IonTitle>Frontpage</IonTitle>
