@@ -74,7 +74,7 @@ function ViewMessage() {
 
           <IonButtons slot="end">
             {!!story && (
-              <IonButton href={story.url}>
+              <IonButton href={story.url} target="_blank">
                 {formatUrl(story.url)}
                 <IonIcon slot="end" icon={openOutline} />
               </IonButton>
