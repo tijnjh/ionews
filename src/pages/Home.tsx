@@ -12,7 +12,11 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonSpinner,
+  IonButtons,
+  IonButton,
+  IonIcon,
 } from "@ionic/react";
+import { logoGithub } from "ionicons/icons";
 
 const STORIES_PER_PAGE = 25;
 
@@ -71,6 +75,11 @@ export default function Home() {
     <IonPage id="home-page">
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="end">
+            <IonButton href="https://tijn.dev">
+              <IonIcon slot="icon-only" icon={logoGithub}></IonIcon>
+            </IonButton>
+          </IonButtons>
           <IonTitle>Frontpage</IonTitle>
         </IonToolbar>
       </IonHeader>
