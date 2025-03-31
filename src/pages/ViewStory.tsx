@@ -58,10 +58,6 @@ function ViewMessage() {
     });
   };
 
-  const handleRefresh = (event: any) => {
-    loadStory(parseInt(params.id, 10));
-  };
-
   useEffect(() => {
     document.querySelectorAll("a").forEach((a) => {
       a.target = "_blank";
