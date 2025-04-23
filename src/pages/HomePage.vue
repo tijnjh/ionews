@@ -22,8 +22,11 @@ import { logoGithub } from "ionicons/icons";
 import { Story } from "../lib/types";
 import { ref } from "vue";
 import { onMounted } from "vue";
+import { tryCatch } from "tsuite";
 
 const STORIES_PER_PAGE = 25;
+
+tryCatch;
 
 async function fetchStoryIds(page: number, storiesPerPage: number) {
   const url = "https://hacker-news.firebaseio.com/v0/topstories.json";
@@ -35,20 +38,24 @@ async function fetchStoryIds(page: number, storiesPerPage: number) {
 async function fetchStories(ids: number[]) {
   const baseUrl = "https://hacker-news.firebaseio.com/v0/item/";
   const fetchPromises = ids.map((id) =>
-    fetch(`${baseUrl}${id}.json`).then((res) => res.json()),
+    fetch(`${baseUrl}${id}.json`).then((res) => res.json())
   );
   return Promise.all(fetchPromises);
 }
 
 async function loadStories(page: number) {
-  try {
-    const storyIds = await fetchStoryIds(page, STORIES_PER_PAGE);
-    const fetchedStories = await fetchStories(storyIds);
-    stories.value = [...stories.value, ...fetchedStories];
-  } catch (error) {
-    console.error("Failed to load stories:", error);
-  } finally {
-    showInitialSpinner.value = false;
+  const [storyIds, err] = await tryCatch(fetchStoryIds(page, STORIES_PER_PAGE));
+
+  if (!err) {
+    const [fetchedStories, err] = await tryCatch(fetchStories(storyIds));
+    if (!err && fetchedStories) {
+      stories.value = [...stories.value, ...fetchedStories];
+      showInitialSpinner.value = false;
+    } else {
+      console.error("Failed to load stories:", err);
+    }
+  } else {
+    console.error("Failed to load story ids:", err);
   }
 }
 
