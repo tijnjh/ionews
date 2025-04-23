@@ -17,7 +17,7 @@ import {
 } from "@ionic/vue";
 
 import { arrowUp, openOutline } from "ionicons/icons";
-import { defineComponent, ref, onMounted, watch } from "vue";
+import { ref } from "vue";
 import { useRoute } from "vue-router";
 import { formatUrl, relativify } from "../lib/utils";
 import { Story } from "../lib/types";

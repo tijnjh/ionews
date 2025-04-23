@@ -22,7 +22,7 @@ import { logoGithub } from "ionicons/icons";
 import { Story } from "../lib/types";
 import { ref } from "vue";
 import { onMounted } from "vue";
-import { tryCatch } from "tsuite";
+import { tryCatch, toast } from "tsuite";
 
 const STORIES_PER_PAGE = 25;
 

@@ -13,7 +13,7 @@
     "@ionic/vue-router": "^8.0.0",
     "date-fns": "^4.1.0",
     "ionicons": "^7.0.0",
-    "tsuite": "0.0.2-3",
+    "tsuite": "0.0.3-5",
     "vue": "^3.3.0",
     "vue-router": "^4.2.0"
   },
