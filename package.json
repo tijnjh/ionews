@@ -9,20 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ionic/vue": "^8.0.0",
-    "@ionic/vue-router": "^8.0.0",
+    "@ionic/vue": "^8.5.5",
+    "@ionic/vue-router": "^8.5.5",
     "date-fns": "^4.1.0",
-    "ionicons": "^7.0.0",
-    "tsuite": "0.0.3-5",
-    "vue": "^3.3.0",
-    "vue-router": "^4.2.0"
+    "ionicons": "^7.4.0",
+    "tsuite": "0.0.3-6",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^5.2.1",
+    "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
-    "typescript": "~5.7.2",
-    "vite": "^6.2.0",
-    "vue-tsc": "^2.2.4"
+    "typescript": "~5.7.3",
+    "vite": "^6.3.2",
+    "vue-tsc": "^2.2.10"
   },
   "packageManager": "pnpm@10.8.1+sha512.c50088ba998c67b8ca8c99df8a5e02fd2ae2e2b29aaf238feaa9e124248d3f48f9fb6db2424949ff901cffbb5e0f0cc1ad6aedb602cd29450751d11c35023677"
 }

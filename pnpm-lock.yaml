@@ -9,41 +9,41 @@ importers:
   .:
     dependencies:
       '@ionic/vue':
-        specifier: ^8.0.0
+        specifier: ^8.5.5
         version: 8.5.5(@stencil/core@4.29.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
       '@ionic/vue-router':
-        specifier: ^8.0.0
+        specifier: ^8.5.5
         version: 8.5.5(@stencil/core@4.29.3)(vue-router@4.5.0(vue@3.5.13(typescript@5.7.3)))(vue@3.5.13(typescript@5.7.3))
       date-fns:
         specifier: ^4.1.0
         version: 4.1.0
       ionicons:
-        specifier: ^7.0.0
+        specifier: ^7.4.0
         version: 7.4.0
       tsuite:
-        specifier: 0.0.3-5
-        version: 0.0.3-5
+        specifier: 0.0.3-6
+        version: 0.0.3-6
       vue:
-        specifier: ^3.3.0
+        specifier: ^3.5.13
         version: 3.5.13(typescript@5.7.3)
       vue-router:
-        specifier: ^4.2.0
+        specifier: ^4.5.0
         version: 4.5.0(vue@3.5.13(typescript@5.7.3))
     devDependencies:
       '@vitejs/plugin-vue':
-        specifier: ^5.2.1
+        specifier: ^5.2.3
         version: 5.2.3(vite@6.3.2)(vue@3.5.13(typescript@5.7.3))
       '@vue/tsconfig':
         specifier: ^0.7.0
         version: 0.7.0(typescript@5.7.3)(vue@3.5.13(typescript@5.7.3))
       typescript:
-        specifier: ~5.7.2
+        specifier: ~5.7.3
         version: 5.7.3
       vite:
-        specifier: ^6.2.0
+        specifier: ^6.3.2
         version: 6.3.2
       vue-tsc:
-        specifier: ^2.2.4
+        specifier: ^2.2.10
         version: 2.2.10(typescript@5.7.3)
 
 packages:
@@ -557,8 +557,8 @@ packages:
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
 
-  tsuite@0.0.3-5:
-    resolution: {integrity: sha512-uWTlUSjV9RKresLNPrDA3heyIwovt326UsinmU/gJ6pQGFSjI5/bRvr9ukCOhWA+0FGoZizHn60voFG8mjOPDA==}
+  tsuite@0.0.3-6:
+    resolution: {integrity: sha512-pm9g9HW/XOhKKaNMGUcGIZesmH/ZTYzItpiWiu1Gh1RUL02Ynx3p05mzknv6bYqOK0B14KTfky0jDKJN3CZQlA==}
 
   typescript@5.7.3:
     resolution: {integrity: sha512-84MVSjMEHP+FQRPy3pX9sTVV/INIex71s9TL2Gm5FG/WG1SqXeKyZ0k7/blY/4FdOzI12CBy1vGc4og/eus0fw==}
@@ -1063,7 +1063,7 @@ snapshots:
 
   tslib@2.8.1: {}
 
-  tsuite@0.0.3-5: {}
+  tsuite@0.0.3-6: {}
 
   typescript@5.7.3: {}
 
