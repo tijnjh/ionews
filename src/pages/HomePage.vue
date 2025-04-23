@@ -26,8 +26,6 @@ import { tryCatch } from "tsuite";
 
 const STORIES_PER_PAGE = 25;
 
-tryCatch;
-
 async function fetchStoryIds(page: number, storiesPerPage: number) {
   const url = "https://hacker-news.firebaseio.com/v0/topstories.json";
   const response = await (await fetch(url)).json();
