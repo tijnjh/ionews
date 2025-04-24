@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import {
-  IonAvatar,
-  IonIcon,
-  IonItem,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonLabel,
-  IonNote,
-} from "@ionic/vue";
+  import {
+    IonAvatar,
+    IonIcon,
+    IonItem,
+    IonItemOption,
+    IonItemOptions,
+    IonItemSliding,
+    IonLabel,
+    IonNote,
+  } from "@ionic/vue";
 
-import { arrowUp, openOutline } from "ionicons/icons";
-import { formatUrl, relativify } from "../utils";
-import { Story } from "../types";
+  import { arrowUp, openOutline } from "ionicons/icons";
+  import { formatUrl, relativify } from "../utils";
+  import { Story } from "../types";
 
-defineProps<{
-  story: Story;
-}>();
+  defineProps<{
+    story: Story;
+  }>();
 </script>
 
 <template>
