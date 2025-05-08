@@ -9,19 +9,19 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ionic/vue": "^8.5.5",
-    "@ionic/vue-router": "^8.5.5",
+    "@ionic/vue": "^8.5.7",
+    "@ionic/vue-router": "^8.5.7",
     "date-fns": "^4.1.0",
     "ionicons": "^7.4.0",
-    "tsuite": "0.0.3-7",
+    "tsuite": "^0.5.3",
     "vue": "^3.5.13",
-    "vue-router": "^4.5.0"
+    "vue-router": "^4.5.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.2.3",
     "@vue/tsconfig": "^0.7.0",
     "typescript": "~5.7.3",
-    "vite": "^6.3.2",
+    "vite": "^6.3.5",
     "vue-tsc": "^2.2.10"
   },
   "prettier": {
