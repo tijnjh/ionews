@@ -17,7 +17,7 @@
   } from "@ionic/vue";
 
   import { arrowUp, openOutline } from "ionicons/icons";
-  import { ref } from "vue";
+  import { computed, ref } from "vue";
   import { useRoute } from "vue-router";
   import { formatUrl, relativify } from "../lib/utils";
   import { Story } from "../lib/types";
@@ -52,6 +52,8 @@
     }
     collapsedThreads.value = newSet;
   }
+
+  const isExternalLink = computed(() => story.value?.url?.startsWith("http"));
 </script>
 
 <template>
@@ -63,8 +65,8 @@
         </ion-buttons>
 
         <ion-buttons slot="end">
-          <ion-button v-if="story" :href="story.url" target="_blank">
-            {{ formatUrl(story.url) }}
+          <ion-button v-if="isExternalLink" :href="story?.url" target="_blank">
+            {{ formatUrl(story?.url!) }}
             <ion-icon slot="end" :icon="openOutline"></ion-icon>
           </ion-button>
         </ion-buttons>
@@ -79,7 +81,10 @@
 
       <template v-if="story">
         <ion-list style="margin-bottom: 0.5rem">
-          <ion-item :href="story.url" target="_blank">
+          <ion-item
+            :href="isExternalLink ? story.url! : undefined"
+            target="_blank"
+          >
             <ion-avatar
               aria-hidden="true"
               slot="start"
@@ -97,16 +102,18 @@
                 <ion-icon :icon="arrowUp" />
                 <span style="margin-inline: 0.5rem">&bull;</span>
                 <span style="flex-shrink: 0">{{ relativify(story.time) }}</span>
-                <span style="margin-inline: 0.5rem">&bull;</span>
-                <span
-                  style="
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
-                    overflow: hidden;
-                  "
-                >
-                  {{ formatUrl(story.url) }}
-                </span>
+                <template v-if="isExternalLink">
+                  <span style="margin-inline: 0.5rem">&bull;</span>
+                  <span
+                    style="
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
+                      overflow: hidden;
+                    "
+                  >
+                    {{ formatUrl(story.url) }}
+                  </span>
+                </template>
               </h3>
             </ion-label>
           </ion-item>

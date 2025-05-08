@@ -48,16 +48,18 @@
           <ion-icon :icon="arrowUp" />
           <span style="margin-inline: 0.5rem">&bull;</span>
           <span style="flex-shrink: 0">{{ relativify(story.time) }}</span>
-          <span style="margin-inline: 0.5rem">&bull;</span>
-          <span
-            style="
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            "
-          >
-            {{ formatUrl(story.url) }}
-          </span>
+          <template v-if="story.url">
+            <span style="margin-inline: 0.5rem">&bull;</span>
+            <span
+              style="
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+              "
+            >
+              {{ formatUrl(story.url) }}
+            </span>
+          </template>
         </h3>
       </ion-label>
       <ion-note>{{ story.descendants }}</ion-note>
