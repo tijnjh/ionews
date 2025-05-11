@@ -22,32 +22,33 @@
   import { Story } from "../lib/types";
   import { ref } from "vue";
   import { onMounted } from "vue";
-  import { tryCatch, toast } from "tsuite";
+  import { tryCatch, effetch } from "tsuite";
 
   const STORIES_PER_PAGE = 25;
 
   async function fetchStoryIds(page: number, storiesPerPage: number) {
     const url = "https://hacker-news.firebaseio.com/v0/topstories.json";
-    const response = await (await fetch(url)).json();
+    const response = await effetch<number[]>(url);
     const start = (page - 1) * storiesPerPage;
     return response.slice(start, start + storiesPerPage);
   }
 
   async function fetchStories(ids: number[]) {
     const baseUrl = "https://hacker-news.firebaseio.com/v0/item/";
-    const fetchPromises = ids.map((id) =>
-      fetch(`${baseUrl}${id}.json`).then((res) => res.json()),
+    const fetchPromises = ids.map(
+      async (id) => await effetch<Story>(`${baseUrl}${id}.json`)
     );
+
     return Promise.all(fetchPromises);
   }
 
   async function loadStories(page: number) {
     const [storyIds, err] = await tryCatch(
-      fetchStoryIds(page, STORIES_PER_PAGE),
+      fetchStoryIds(page, STORIES_PER_PAGE)
     );
 
     if (!err) {
-      const [fetchedStories, err] = await tryCatch(fetchStories(storyIds));
+      const [fetchedStories, err] = await tryCatch(fetchStories(storyIds!));
       if (!err && fetchedStories) {
         stories.value = [...stories.value, ...fetchedStories];
         showInitialSpinner.value = false;
@@ -88,7 +89,7 @@
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="end">
-          <ion-button href="https://github.com/tijnjh/hn">
+          <ion-button href="https://tijn.dev/hn">
             <ion-icon :icon="logoGithub" slot="icon-only" />
           </ion-button>
         </ion-buttons>
@@ -113,7 +114,7 @@
       </ion-list>
 
       <ion-infinite-scroll @ion-infinite="loadMore" threshold="100px">
-        <ion-infinite-scroll-content></ion-infinite-scroll-content>
+        <ion-infinite-scroll-content />
       </ion-infinite-scroll>
     </ion-content>
   </ion-page>
