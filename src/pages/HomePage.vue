@@ -36,7 +36,7 @@
   async function fetchStories(ids: number[]) {
     const baseUrl = "https://hacker-news.firebaseio.com/v0/item/";
     const fetchPromises = ids.map(
-      async (id) => await effetch<Story>(`${baseUrl}${id}.json`)
+      async (id) => await effetch<Story>(`${baseUrl}${id}.json`),
     );
 
     return Promise.all(fetchPromises);
@@ -44,7 +44,7 @@
 
   async function loadStories(page: number) {
     const [storyIds, err] = await tryCatch(
-      fetchStoryIds(page, STORIES_PER_PAGE)
+      fetchStoryIds(page, STORIES_PER_PAGE),
     );
 
     if (!err) {
