@@ -16,7 +16,7 @@
     IonButton,
   } from "@ionic/vue";
 
-  import { arrowUp, openOutline } from "ionicons/icons";
+  import { arrowUp, openOutline, chevronUp, chevronDown } from "ionicons/icons";
   import { computed, ref } from "vue";
   import { useRoute } from "vue-router";
   import { formatUrl, relativify } from "../lib/utils";
@@ -133,6 +133,13 @@
                 {{ comment.user }}
                 <span style="margin-inline: 0.5rem">&bull;</span>
                 {{ relativify(comment.time) }}
+                <span style="margin-left: auto">
+                  <ion-icon
+                    v-if="!collapsedThreads.has(comment.id)"
+                    :icon="chevronUp"
+                  />
+                  <ion-icon v-else :icon="chevronDown" />
+                </span>
               </p>
               <div
                 class="comment-content"
