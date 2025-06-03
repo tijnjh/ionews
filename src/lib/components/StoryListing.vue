@@ -1,11 +1,11 @@
 <script setup lang="ts">
-  import { IonAvatar, IonIcon, IonItem, IonLabel, IonNote } from "@ionic/vue";
+import { IonAvatar, IonIcon, IonItem, IonLabel, IonNote } from "@ionic/vue";
 
-  import { arrowUp } from "ionicons/icons";
-  import { formatUrl, relativify } from "../utils";
-  import { Story } from "../types";
+import { arrowUp } from "ionicons/icons";
+import { formatUrl, relativify } from "../utils";
+import { Story } from "../types";
 
-  defineProps<{ story: Story }>();
+defineProps<{ story: Story }>();
 </script>
 
 <template>
@@ -13,16 +13,18 @@
     :router-link="`/story/${story.id}`"
     :draggable="false"
     detail
-    :style="{
-      userSelect: 'none',
-      '-webkit-user-drag': 'none',
-      '-moz-user-drag': 'none',
-    }"
+    :style='
+      {
+        userSelect: "none",
+        "-webkit-user-drag": "none",
+        "-moz-user-drag": "none",
+      }
+    '
   >
     <ion-avatar
       aria-hidden="true"
       slot="start"
-      :style="{ '--border-radius': '.25rem' }"
+      :style='{ "--border-radius": ".25rem" }'
     >
       <img
         alt=""
@@ -39,11 +41,7 @@
         <template v-if="story.url">
           <span style="margin-inline: 0.5rem">&bull;</span>
           <span
-            style="
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            "
+            style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden"
           >
             {{ formatUrl(story.url) }}
           </span>

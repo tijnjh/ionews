@@ -1,59 +1,59 @@
 <script setup lang="ts">
-  import {
-    IonAvatar,
-    IonBackButton,
-    IonButtons,
-    IonContent,
-    IonHeader,
-    IonItem,
-    IonLabel,
-    IonList,
-    IonPage,
-    IonText,
-    IonToolbar,
-    IonIcon,
-    IonSpinner,
-    IonButton,
-  } from "@ionic/vue";
+import {
+  IonAvatar,
+  IonBackButton,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSpinner,
+  IonText,
+  IonToolbar,
+} from "@ionic/vue";
 
-  import { arrowUp, openOutline, chevronUp, chevronDown } from "ionicons/icons";
-  import { computed, ref } from "vue";
-  import { useRoute } from "vue-router";
-  import { formatUrl, relativify } from "../lib/utils";
-  import { Story } from "../lib/types";
+import { arrowUp, chevronDown, chevronUp, openOutline } from "ionicons/icons";
+import { computed, ref } from "vue";
+import { useRoute } from "vue-router";
+import { formatUrl, relativify } from "../lib/utils";
+import { Story } from "../lib/types";
 
-  const route = useRoute();
+const route = useRoute();
 
-  async function fetchStory(id: number) {
-    const url = `https://node-hnapi.herokuapp.com/item/${id}`;
-    const response = await (await fetch(url)).json();
-    return response;
+async function fetchStory(id: number) {
+  const url = `https://node-hnapi.herokuapp.com/item/${id}`;
+  const response = await (await fetch(url)).json();
+  return response;
+}
+
+const story = ref<Story>();
+const collapsedThreads = ref<Set<number>>(new Set());
+const loading = ref<boolean>(true);
+
+async function loadStory(id: number) {
+  loading.value = true;
+  const storyData = await fetchStory(id);
+  story.value = storyData;
+  loading.value = false;
+}
+
+loadStory(Number(route.params.id));
+
+function toggleCollapse(commentId: number) {
+  const newSet = new Set(collapsedThreads.value);
+  if (newSet.has(commentId)) {
+    newSet.delete(commentId);
+  } else {
+    newSet.add(commentId);
   }
+  collapsedThreads.value = newSet;
+}
 
-  const story = ref<Story>();
-  const collapsedThreads = ref<Set<number>>(new Set());
-  const loading = ref<boolean>(true);
-
-  async function loadStory(id: number) {
-    loading.value = true;
-    const storyData = await fetchStory(id);
-    story.value = storyData;
-    loading.value = false;
-  }
-
-  loadStory(Number(route.params.id));
-
-  function toggleCollapse(commentId: number) {
-    const newSet = new Set(collapsedThreads.value);
-    if (newSet.has(commentId)) {
-      newSet.delete(commentId);
-    } else {
-      newSet.add(commentId);
-    }
-    collapsedThreads.value = newSet;
-  }
-
-  const isExternalLink = computed(() => story.value?.url?.startsWith("http"));
+const isExternalLink = computed(() => story.value?.url?.startsWith("http"));
 </script>
 
 <template>
@@ -105,11 +105,7 @@
                 <template v-if="isExternalLink">
                   <span style="margin-inline: 0.5rem">&bull;</span>
                   <span
-                    style="
-                      white-space: nowrap;
-                      text-overflow: ellipsis;
-                      overflow: hidden;
-                    "
+                    style="white-space: nowrap; text-overflow: ellipsis; overflow: hidden"
                   >
                     {{ formatUrl(story.url) }}
                   </span>
@@ -143,10 +139,12 @@
               </p>
               <div
                 class="comment-content"
-                :class="{
-                  collapsed: collapsedThreads.has(comment.id),
-                  expanded: !collapsedThreads.has(comment.id),
-                }"
+                :class="
+                  {
+                    collapsed: collapsedThreads.has(comment.id),
+                    expanded: !collapsedThreads.has(comment.id),
+                  }
+                "
               >
                 <ion-text>
                   <div v-html="comment.content"></div>
@@ -169,10 +167,16 @@
 
                 <div
                   class="comment-content"
-                  :class="{
-                    collapsed: collapsedThreads.has(comment.id),
-                    expanded: !collapsedThreads.has(comment.id),
-                  }"
+                  :class="
+                    {
+                      collapsed: collapsedThreads.has(
+                        comment.id,
+                      ),
+                      expanded: !collapsedThreads.has(
+                        comment.id,
+                      ),
+                    }
+                  "
                 >
                   <ion-text>
                     <div v-html="reply.content"></div>
@@ -191,16 +195,16 @@
 </template>
 
 <style scoped>
-  .comment-content {
-    transition: height 0.3s ease;
-    overflow: hidden;
-  }
+.comment-content {
+  transition: height 0.3s ease;
+  overflow: hidden;
+}
 
-  .comment-content.collapsed {
-    height: 0;
-  }
+.comment-content.collapsed {
+  height: 0;
+}
 
-  .comment-content.expanded {
-    height: calc-size(max-content, size);
-  }
+.comment-content.expanded {
+  height: calc-size(max-content, size);
+}
 </style>

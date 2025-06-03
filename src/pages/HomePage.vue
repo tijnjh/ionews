@@ -1,87 +1,87 @@
 <script setup lang="ts">
-  import StoryListing from "../lib/components/StoryListing.vue";
-  import {
-    IonContent,
-    IonHeader,
-    IonList,
-    IonPage,
-    IonTitle,
-    IonToolbar,
-    IonInfiniteScroll,
-    IonInfiniteScrollContent,
-    IonRefresher,
-    IonRefresherContent,
-    IonSpinner,
-    IonButtons,
-    IonButton,
-    IonIcon,
-    InfiniteScrollCustomEvent,
-    RefresherCustomEvent,
-  } from "@ionic/vue";
-  import { logoGithub } from "ionicons/icons";
-  import { Story } from "../lib/types";
-  import { ref } from "vue";
-  import { onMounted } from "vue";
-  import { tryCatch, effetch } from "tsuite";
+import StoryListing from "../lib/components/StoryListing.vue";
+import {
+  InfiniteScrollCustomEvent,
+  IonButton,
+  IonButtons,
+  IonContent,
+  IonHeader,
+  IonIcon,
+  IonInfiniteScroll,
+  IonInfiniteScrollContent,
+  IonList,
+  IonPage,
+  IonRefresher,
+  IonRefresherContent,
+  IonSpinner,
+  IonTitle,
+  IonToolbar,
+  RefresherCustomEvent,
+} from "@ionic/vue";
+import { logoGithub } from "ionicons/icons";
+import { Story } from "../lib/types";
+import { ref } from "vue";
+import { onMounted } from "vue";
+import { effetch, tryCatch } from "tsuite";
 
-  const STORIES_PER_PAGE = 25;
+const STORIES_PER_PAGE = 25;
 
-  async function fetchStoryIds(page: number, storiesPerPage: number) {
-    const url = "https://hacker-news.firebaseio.com/v0/topstories.json";
-    const response = await effetch<number[]>(url);
-    const start = (page - 1) * storiesPerPage;
-    return response.slice(start, start + storiesPerPage);
-  }
+async function fetchStoryIds(page: number, storiesPerPage: number) {
+  const url = "https://hacker-news.firebaseio.com/v0/topstories.json";
+  const response = await effetch<number[]>(url);
+  const start = (page - 1) * storiesPerPage;
+  return response.slice(start, start + storiesPerPage);
+}
 
-  async function fetchStories(ids: number[]) {
-    const baseUrl = "https://hacker-news.firebaseio.com/v0/item/";
-    const fetchPromises = ids.map(
-      async (id) => await effetch<Story>(`${baseUrl}${id}.json`),
-    );
+async function fetchStories(ids: number[]) {
+  const baseUrl = "https://hacker-news.firebaseio.com/v0/item/";
+  const fetchPromises = ids.map(
+    async (id) => await effetch<Story>(`${baseUrl}${id}.json`),
+  );
 
-    return Promise.all(fetchPromises);
-  }
+  return Promise.all(fetchPromises);
+}
 
-  async function loadStories(page: number) {
-    const [storyIds, err] = await tryCatch(
-      fetchStoryIds(page, STORIES_PER_PAGE),
-    );
+async function loadStories(page: number) {
+  const [storyIds, err] = await tryCatch(
+    fetchStoryIds(page, STORIES_PER_PAGE),
+  );
 
-    if (!err) {
-      const [fetchedStories, err] = await tryCatch(fetchStories(storyIds!));
-      if (!err && fetchedStories) {
-        stories.value = [...stories.value, ...fetchedStories];
-        showInitialSpinner.value = false;
-      } else {
-        console.error("Failed to load stories:", err);
-      }
+  if (!err) {
+    const [fetchedStories, err] = await tryCatch(fetchStories(storyIds!));
+    if (!err && fetchedStories) {
+      stories.value = [...stories.value, ...fetchedStories];
+      showInitialSpinner.value = false;
     } else {
-      console.error("Failed to load story ids:", err);
+      console.error("Failed to load stories:", err);
     }
+  } else {
+    console.error("Failed to load story ids:", err);
   }
+}
 
-  function handleRefresh(event: RefresherCustomEvent) {
-    page.value = 1;
-    stories.value = [];
-    loadStories(1).then(() => {
-      event.detail.complete();
-    });
-  }
-
-  function loadMore(event: InfiniteScrollCustomEvent) {
-    page.value++;
-    loadStories(page.value + 1).then(() => {
-      event.target.complete();
-    });
-  }
-
-  const stories = ref<Story[]>([]);
-  const page = ref(1);
-  const showInitialSpinner = ref(true);
-
-  onMounted(() => {
-    loadStories(page.value);
+function handleRefresh(event: RefresherCustomEvent) {
+  page.value = 1;
+  stories.value = [];
+  loadStories(1).then(() => {
+    event.detail.complete();
   });
+}
+
+function loadMore(event: InfiniteScrollCustomEvent) {
+  page.value++;
+  loadStories(page.value + 1).then(() => {
+    event.target.complete();
+  });
+}
+
+const stories = ref<Story[]>([]);
+const page = ref(1);
+const showInitialSpinner = ref(true);
+
+onMounted(() => {
+  loadStories(page.value);
+});
 </script>
 
 <template>
@@ -121,8 +121,8 @@
 </template>
 
 <style scoped>
-  .initial-spinner {
-    width: 100%;
-    margin-block-start: 2rem;
-  }
+.initial-spinner {
+  width: 100%;
+  margin-block-start: 2rem;
+}
 </style>

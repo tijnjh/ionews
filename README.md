@@ -4,15 +4,11 @@
   </a>
 </p>
 
-
 <h1 align="center"/>HN</h1>
 
 <p align="center">
-A simple hacker news client built with [Ionic](https://ionic.io) 
+A simple hacker news client built with [Ionic](https://ionic.io)
 </p>
-
-
-
 
 ## Features
 
