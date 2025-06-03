@@ -21,6 +21,7 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { formatUrl, relativify } from "../lib/utils";
 import { Story } from "../lib/types";
+import { haptic } from "ios-haptics"
 
 const route = useRoute();
 
@@ -44,6 +45,7 @@ async function loadStory(id: number) {
 loadStory(Number(route.params.id));
 
 function toggleCollapse(commentId: number) {
+  haptic();
   const newSet = new Set(collapsedThreads.value);
   if (newSet.has(commentId)) {
     newSet.delete(commentId);
