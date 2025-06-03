@@ -1,6 +1,6 @@
 import { formatDistanceToNow } from "date-fns";
-
-import { toast, tryCatch } from "tsuite";
+import { tryCatch } from "typecatch";
+import { haptic } from "ios-haptics";
 
 export function relativify(uts: number) {
   const timestamp = uts * 1000;
@@ -10,13 +10,16 @@ export function relativify(uts: number) {
 }
 
 export function formatUrl(url: string) {
-  const [urlObj, err] = tryCatch(() => new URL(url));
-  if (!err) {
+  const { data: urlObj, error } = tryCatch(() => new URL(url));
+  if (!error) {
     const hostname = urlObj?.hostname;
     return hostname?.startsWith("www.")
       ? hostname.replace("www.", "")
       : hostname;
   } else {
-    toast(`something went wrong when trying to parse a story url: ${err}`);
+    haptic.error();
+    console.error(
+      `something went wrong when trying to parse a story url: ${error.message}`,
+    );
   }
 }

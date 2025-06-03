@@ -21,7 +21,7 @@ import { computed, ref } from "vue";
 import { useRoute } from "vue-router";
 import { formatUrl, relativify } from "../lib/utils";
 import { Story } from "../lib/types";
-import { haptic } from "ios-haptics"
+import { haptic } from "ios-haptics";
 
 const route = useRoute();
 

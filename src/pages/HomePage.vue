@@ -22,7 +22,8 @@ import { logoGithub } from "ionicons/icons";
 import { Story } from "../lib/types";
 import { ref } from "vue";
 import { onMounted } from "vue";
-import { effetch, tryCatch } from "tsuite";
+import { effetch } from "tsuite";
+import { tryCatch } from "typecatch";
 
 const STORIES_PER_PAGE = 25;
 
@@ -43,20 +44,22 @@ async function fetchStories(ids: number[]) {
 }
 
 async function loadStories(page: number) {
-  const [storyIds, err] = await tryCatch(
+  const { data: storyIds, error } = await tryCatch(
     fetchStoryIds(page, STORIES_PER_PAGE),
   );
 
-  if (!err) {
-    const [fetchedStories, err] = await tryCatch(fetchStories(storyIds!));
-    if (!err && fetchedStories) {
+  if (!error) {
+    const { data: fetchedStories, error } = await tryCatch(
+      fetchStories(storyIds!),
+    );
+    if (!error && fetchedStories) {
       stories.value = [...stories.value, ...fetchedStories];
       showInitialSpinner.value = false;
     } else {
-      console.error("Failed to load stories:", err);
+      console.error("Failed to load stories:", error);
     }
   } else {
-    console.error("Failed to load story ids:", err);
+    console.error("Failed to load story ids:", error);
   }
 }
 
