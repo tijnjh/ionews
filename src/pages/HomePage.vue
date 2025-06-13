@@ -24,6 +24,7 @@ import { ref } from "vue";
 import { onMounted } from "vue";
 import { effetch } from "tsuite";
 import { tryCatch } from "typecatch";
+import { haptic } from "ios-haptics";
 
 const STORIES_PER_PAGE = 25;
 
@@ -37,7 +38,7 @@ async function fetchStoryIds(page: number, storiesPerPage: number) {
 async function fetchStories(ids: number[]) {
   const baseUrl = "https://hacker-news.firebaseio.com/v0/item/";
   const fetchPromises = ids.map(
-    async (id) => await effetch<Story>(`${baseUrl}${id}.json`),
+    async (id) => await effetch<Story>(`${baseUrl}${id}.json`)
   );
 
   return Promise.all(fetchPromises);
@@ -45,12 +46,12 @@ async function fetchStories(ids: number[]) {
 
 async function loadStories(page: number) {
   const { data: storyIds, error } = await tryCatch(
-    fetchStoryIds(page, STORIES_PER_PAGE),
+    fetchStoryIds(page, STORIES_PER_PAGE)
   );
 
   if (!error) {
     const { data: fetchedStories, error } = await tryCatch(
-      fetchStories(storyIds!),
+      fetchStories(storyIds!)
     );
     if (!error && fetchedStories) {
       stories.value = [...stories.value, ...fetchedStories];
@@ -64,6 +65,7 @@ async function loadStories(page: number) {
 }
 
 function handleRefresh(event: RefresherCustomEvent) {
+  haptic();
   page.value = 1;
   stories.value = [];
   loadStories(1).then(() => {
