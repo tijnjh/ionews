@@ -28,15 +28,14 @@ export default function HomePage() {
         );
     }
 
-    const { isPending, data, refetch, fetchNextPage, status } =
-        useInfiniteQuery<
-            Story[]
-        >({
-            queryKey: ["stories"],
-            queryFn: fetchStories,
-            initialPageParam: 1,
-            getNextPageParam: (pages) => pages.length + 1,
-        });
+    const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery<
+        Story[]
+    >({
+        queryKey: ["stories"],
+        queryFn: fetchStories,
+        initialPageParam: 1,
+        getNextPageParam: (pages) => pages.length + 1,
+    });
 
     return (
         <IonPage>
@@ -50,7 +49,7 @@ export default function HomePage() {
                             <IonIcon icon={logoGithub} />
                         </IonButton>
                     </IonButtons>
-                    <IonTitle>Frontpage {status}</IonTitle>
+                    <IonTitle>Frontpage</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
