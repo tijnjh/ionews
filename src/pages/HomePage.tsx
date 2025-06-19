@@ -34,7 +34,7 @@ export default function HomePage() {
         queryKey: ["stories"],
         queryFn: fetchStories,
         initialPageParam: 1,
-        getNextPageParam: (lastPage, allPages) => allPages.length + 1,
+        getNextPageParam: (_, allPages) => allPages.length + 1,
     });
 
     return (
