@@ -23,7 +23,7 @@ export default function StoryListing({ story }: { story: Story }) {
             <IonLabel>
                 <h2>{story.title}</h2>
                 <h3 className="flex items-center">
-                    {story.score}
+                    {story.points}
                     <IonIcon icon={arrowUp} />
                     <span className="mx-2">&bull;</span>
                     <span className="shrink-0">{relativify(story.time)}</span>
@@ -37,7 +37,7 @@ export default function StoryListing({ story }: { story: Story }) {
                     )}
                 </h3>
             </IonLabel>
-            <IonNote>{story.descendants}</IonNote>
+            <IonNote>{story.comments_count}</IonNote>
         </IonItem>
     );
 }
