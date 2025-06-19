@@ -1,6 +1,21 @@
-import vue from "@vitejs/plugin-vue";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vite";
 import { VitePWA } from "vite-plugin-pwa";
+import tsconfigPaths from "vite-tsconfig-paths";
 
-export default {
-  plugins: [vue(), VitePWA({ registerType: "autoUpdate" })],
-};
+export default defineConfig({
+  plugins: [
+    react({
+      babel: {
+        plugins: [["babel-plugin-react-compiler"]],
+      },
+    }),
+    tailwindcss(),
+    tsconfigPaths({
+      root: fileURLToPath(new URL(".", import.meta.url)),
+    }),
+    VitePWA({ registerType: "autoUpdate" }),
+  ],
+});

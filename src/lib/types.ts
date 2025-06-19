@@ -1,4 +1,4 @@
-export type Story = {
+export interface Story {
   id: number;
   title: string;
   points: number;
@@ -10,9 +10,9 @@ export type Story = {
   domain: string;
   descendants: number;
   comments: Comment[];
-};
+}
 
-export type Comment = {
+export interface Comment {
   id: number;
   level: number;
   user: string;
@@ -20,4 +20,4 @@ export type Comment = {
   time_ago: string;
   content: string;
   comments: Comment[];
-};
+}

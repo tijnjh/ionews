@@ -1,6 +1,5 @@
 import { formatDistanceToNow } from "date-fns";
 import { tryCatch } from "typecatch";
-import { haptic } from "ios-haptics";
 
 export function relativify(uts: number) {
   const timestamp = uts * 1000;
@@ -17,9 +16,8 @@ export function formatUrl(url: string) {
       ? hostname.replace("www.", "")
       : hostname;
   } else {
-    haptic.error();
-    console.error(
-      `something went wrong when trying to parse a story url: ${error.message}`,
+    throw new Error(
+      `something went wrong when trying to parse a story url: ${error.message}`
     );
   }
 }
