@@ -1,6 +1,6 @@
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { Story } from '@/lib/types'
-import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonText, IonToolbar } from '@ionic/react'
+import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonText, IonToolbar } from '@ionic/react'
 import { useQuery } from '@tanstack/react-query'
 import { arrowUp, chevronDown, chevronUp, openOutline } from 'ionicons/icons'
 import { haptic } from 'ios-haptics'
@@ -28,7 +28,7 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
 
   const url = `https://node-hnapi.herokuapp.com/item/${params.id}`
 
-  const { isPending, data: story } = useQuery<Story>({
+  const { isPending, data: story, refetch } = useQuery<Story>({
     queryKey: [`story-${params.id}`],
     queryFn: () => ofetch(url),
   })
@@ -55,6 +55,15 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
       </IonHeader>
 
       <IonContent color="light">
+        <IonRefresher
+          slot="fixed"
+          onIonRefresh={async (e) => {
+            await refetch()
+            e.detail.complete()
+          }}
+        >
+          <IonRefresherContent />
+        </IonRefresher>
         {isPending && <IonSpinner className="my-8 w-full" />}
 
         {story && (
@@ -67,10 +76,9 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                 <IonAvatar
                   aria-hidden="true"
                   slot="start"
-                  className="rounded-sm"
                 >
                   <img
-                    alt=""
+                    className="rounded-sm! bg-(--gray-5)"
                     src={`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`}
                   />
                 </IonAvatar>

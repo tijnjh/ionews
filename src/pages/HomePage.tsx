@@ -37,7 +37,10 @@ export default function HomePage() {
       <IonContent fullscreen>
         <IonRefresher
           slot="fixed"
-          onIonRefresh={() => refetch()}
+          onIonRefresh={async (e) => {
+            await refetch()
+            e.detail.complete()
+          }}
         >
           <IonRefresherContent />
         </IonRefresher>

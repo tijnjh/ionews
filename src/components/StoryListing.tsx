@@ -14,9 +14,11 @@ export default function StoryListing({ story }: { story: Story }) {
       <IonAvatar
         aria-hidden
         slot="start"
-        className="rounded-sm"
       >
-        <img src={`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`} />
+        <img
+          className="rounded-sm! bg-(--gray-5)"
+          src={`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`}
+        />
       </IonAvatar>
       <IonLabel>
         <h2>{story.title}</h2>
