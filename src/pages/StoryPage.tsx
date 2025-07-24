@@ -1,5 +1,5 @@
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
-import type { Comment, Story } from '@/lib/types'
+import type { Story } from '@/lib/types'
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonSpinner, IonText, IonToolbar } from '@ionic/react'
 import { useQuery } from '@tanstack/react-query'
 import { arrowUp, chevronDown, chevronUp, openOutline } from 'ionicons/icons'
@@ -133,7 +133,7 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                   </IonLabel>
                 </IonItem>
                 {!collapsedThreads.has(comment.id)
-                  && comment.comments.map((reply: Comment) => (
+                  && comment.comments.map(reply => (
                     <IonItem
                       key={reply.id}
                       style={{ paddingLeft: `${reply.level}rem` }}
