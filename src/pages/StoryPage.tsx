@@ -119,7 +119,7 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                       </span>
                       {relativify(comment.time)}
                       <span className="ml-auto">
-                        {!collapsedThreads.has(comment.id) ? <IonIcon icon={chevronUp} /> : <IonIcon icon={chevronDown} />}
+                        <IonIcon icon={!collapsedThreads.has(comment.id) ? chevronUp : chevronDown} />
                       </span>
                     </p>
                     {!collapsedThreads.has(comment.id)
