@@ -122,14 +122,13 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                         <IonIcon icon={!collapsedThreads.has(comment.id) ? chevronUp : chevronDown} />
                       </span>
                     </p>
-                    {!collapsedThreads.has(comment.id)
-                      && (
-                        <div>
-                          <IonText>
-                            <div dangerouslySetInnerHTML={{ __html: comment.content }} />
-                          </IonText>
-                        </div>
-                      )}
+                    {!collapsedThreads.has(comment.id) && (
+                      <div>
+                        <IonText>
+                          <div dangerouslySetInnerHTML={{ __html: comment.content }} />
+                        </IonText>
+                      </div>
+                    )}
                   </IonLabel>
                 </IonItem>
                 {!collapsedThreads.has(comment.id)
