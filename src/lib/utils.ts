@@ -1,23 +1,19 @@
-import { formatDistanceToNow } from "date-fns";
-import { tryCatch } from "typecatch";
+import { formatDistanceToNow } from 'date-fns'
 
 export function relativify(uts: number) {
-  const timestamp = uts * 1000;
-  const date = new Date(timestamp);
-  const formatted = formatDistanceToNow(date, { addSuffix: true });
-  return formatted.replace("about", "");
+  const timestamp = uts * 1000
+  const date = new Date(timestamp)
+  const formatted = formatDistanceToNow(date, { addSuffix: true })
+  return formatted.replace('about', '')
 }
 
 export function formatUrl(url: string) {
-  const { data: urlObj, error } = tryCatch(() => new URL(url));
-  if (!error) {
-    const hostname = urlObj?.hostname;
-    return hostname?.startsWith("www.")
-      ? hostname.replace("www.", "")
-      : hostname;
-  } else {
-    throw new Error(
-      `something went wrong when trying to parse a story url: ${error.message}`
-    );
+  const parsedUrl = URL.parse(url)
+
+  if (!parsedUrl) {
+    throw new Error('something went wrong when trying to parse a story url')
   }
+
+  const hostname = parsedUrl?.hostname
+  return hostname?.startsWith('www.') ? hostname.replace('www.', '') : hostname
 }
