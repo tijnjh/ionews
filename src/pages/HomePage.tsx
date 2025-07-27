@@ -24,7 +24,7 @@ export default function HomePage() {
         <IonToolbar>
           <IonButtons slot="end">
             <IonButton
-              href="https://github.com/tijnjh/hn"
+              href="https://github.com/tijnjh/ionews"
               target="_blank"
             >
               <IonIcon icon={logoGithub} />
