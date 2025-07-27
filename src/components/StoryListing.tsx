@@ -7,6 +7,12 @@ export default function StoryListing({ story }: { story: Story }) {
   return (
     <IonItem
       routerLink={`/story/${story.id}`}
+      onClick={() => {
+        sessionStorage.setItem(
+          String(story.id),
+          JSON.stringify(story),
+        )
+      }}
       draggable={false}
       detail
       className="select-none"

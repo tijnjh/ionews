@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { Story } from '@/lib/types'
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonText, IonToolbar } from '@ionic/react'
@@ -5,7 +6,7 @@ import { useQuery } from '@tanstack/react-query'
 import { arrowUp, chevronDown, chevronUp, openOutline } from 'ionicons/icons'
 import { haptic } from 'ios-haptics'
 import { ofetch } from 'ofetch'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { formatUrl, relativify } from '@/lib/utils'
 
 interface StoryPageProps {
@@ -18,6 +19,8 @@ interface StoryPageProps {
 
 export default function StoryPage({ match: { params } }: StoryPageProps) {
   const [collapsedThreads, setCollapsedThreads] = useState<Set<number>>(() => new Set())
+  const [story, setStory] = useState<Story>()
+  const [comments, setComments] = useState<Story['comments']>()
 
   function toggleCollapse(commentId: number) {
     haptic()
@@ -28,10 +31,28 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
 
   const url = `https://node-hnapi.herokuapp.com/item/${params.id}`
 
-  const { isPending, data: story, refetch } = useQuery<Story>({
+  const { isPending, data, refetch } = useQuery<Story>({
     queryKey: [`story-${params.id}`],
     queryFn: () => ofetch(url),
   })
+
+  useEffect(() => {
+    if (!story) {
+      const sessionStory = sessionStorage.getItem(params.id)
+      if (sessionStory) {
+        setStory(JSON.parse(sessionStory))
+      }
+      else if (data) {
+        setStory(data)
+      }
+    }
+  }, [data, story, params.id])
+
+  useEffect(() => {
+    if (data?.comments) {
+      setComments(data.comments)
+    }
+  }, [data])
 
   const isExternalLink = story?.url.startsWith('http')
 
@@ -54,7 +75,7 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent color="light">
+      <IonContent color="light" fullscreen>
         <IonRefresher
           slot="fixed"
           onIonRefresh={async (e) => {
@@ -64,7 +85,6 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
         >
           <IonRefresherContent />
         </IonRefresher>
-        {isPending && <IonSpinner className="my-8 w-full" />}
 
         {story && (
           <>
@@ -108,62 +128,69 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                 </IonLabel>
               </IonItem>
             </IonList>
-            {story.comments.map(comment => (
-              <IonList
-                key={comment.id}
-                className="mb-2"
-              >
-                <IonItem>
-                  <IonLabel>
-                    <p
-                      onClick={() => {
-                        toggleCollapse(comment.id)
-                      }}
-                      className="flex items-center cursor-pointer"
+            {comments
+              && (
+                <>
+                  {comments.map(comment => (
+                    <IonList
+                      key={comment.id}
+                      className="mb-2"
                     >
-                      {comment.user}
-                      <span className="mx-2">
-                        &bull;
-                      </span>
-                      {relativify(comment.time)}
-                      <span className="ml-auto">
-                        <IonIcon icon={!collapsedThreads.has(comment.id) ? chevronUp : chevronDown} />
-                      </span>
-                    </p>
-                    {!collapsedThreads.has(comment.id) && (
-                      <div>
-                        <IonText>
-                          <div dangerouslySetInnerHTML={{ __html: comment.content }} />
-                        </IonText>
-                      </div>
-                    )}
-                  </IonLabel>
-                </IonItem>
-                {!collapsedThreads.has(comment.id)
-                  && comment.comments.map(reply => (
-                    <IonItem
-                      key={reply.id}
-                      style={{ paddingLeft: `${reply.level}rem` }}
-                    >
-                      <IonLabel>
-                        <p className="flex items-center">
-                          {reply.user}
-                          <span className="mx-2">
-                            &bull;
-                          </span>
-                          {relativify(reply.time)}
-                        </p>
+                      <IonItem>
+                        <IonLabel>
+                          <p
+                            onClick={() => {
+                              toggleCollapse(comment.id)
+                            }}
+                            className="flex items-center cursor-pointer"
+                          >
+                            {comment.user}
+                            <span className="mx-2">
+                              &bull;
+                            </span>
+                            {relativify(comment.time)}
+                            <span className="ml-auto">
+                              <IonIcon icon={!collapsedThreads.has(comment.id) ? chevronUp : chevronDown} />
+                            </span>
+                          </p>
+                          {!collapsedThreads.has(comment.id) && (
+                            <div>
+                              <IonText>
+                                <div dangerouslySetInnerHTML={{ __html: comment.content }} />
+                              </IonText>
+                            </div>
+                          )}
+                        </IonLabel>
+                      </IonItem>
+                      {!collapsedThreads.has(comment.id)
+                        && comment.comments.map(reply => (
+                          <IonItem
+                            key={reply.id}
+                            style={{ paddingLeft: `${reply.level}rem` }}
+                          >
+                            <IonLabel>
+                              <p className="flex items-center">
+                                {reply.user}
+                                <span className="mx-2">
+                                  &bull;
+                                </span>
+                                {relativify(reply.time)}
+                              </p>
 
-                        <IonText>
-                          <div dangerouslySetInnerHTML={{ __html: reply.content }} />
-                        </IonText>
-                      </IonLabel>
-                    </IonItem>
+                              <IonText>
+                                <div dangerouslySetInnerHTML={{ __html: reply.content }} />
+                              </IonText>
+                            </IonLabel>
+                          </IonItem>
+                        ))}
+                    </IonList>
                   ))}
-              </IonList>
-            ))}
+                </>
+              )}
           </>
         )}
+        {isPending && <IonSpinner className="my-8 w-full" />}
+
       </IonContent>
     </IonPage>
   )
