@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
-/* eslint-disable react-dom/no-dangerously-set-innerhtml */
 import type { Story } from '@/lib/types'
-import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonText, IonToolbar } from '@ionic/react'
+import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonToolbar } from '@ionic/react'
 import { useQuery } from '@tanstack/react-query'
-import { arrowUp, chevronDown, chevronUp, openOutline } from 'ionicons/icons'
+import { arrowUp, openOutline } from 'ionicons/icons'
 import { haptic } from 'ios-haptics'
 import { ofetch } from 'ofetch'
 import { useEffect, useState } from 'react'
+import { CommentItem } from '@/components/CommentItem'
 import { formatUrl, relativify } from '@/lib/utils'
 
 interface StoryPageProps {
@@ -128,65 +128,15 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                 </IonLabel>
               </IonItem>
             </IonList>
-            {comments
-              && (
-                <>
-                  {comments.map(comment => (
-                    <IonList
-                      key={comment.id}
-                      className="mb-2"
-                    >
-                      <IonItem>
-                        <IonLabel>
-                          <p
-                            onClick={() => {
-                              toggleCollapse(comment.id)
-                            }}
-                            className="flex items-center cursor-pointer"
-                          >
-                            {comment.user}
-                            <span className="mx-2">
-                              &bull;
-                            </span>
-                            {relativify(comment.time)}
-                            <span className="ml-auto">
-                              <IonIcon icon={!collapsedThreads.has(comment.id) ? chevronUp : chevronDown} />
-                            </span>
-                          </p>
-                          {!collapsedThreads.has(comment.id) && (
-                            <div>
-                              <IonText>
-                                <div dangerouslySetInnerHTML={{ __html: comment.content }} />
-                              </IonText>
-                            </div>
-                          )}
-                        </IonLabel>
-                      </IonItem>
-                      {!collapsedThreads.has(comment.id)
-                        && comment.comments.map(reply => (
-                          <IonItem
-                            key={reply.id}
-                            style={{ paddingLeft: `${reply.level}rem` }}
-                          >
-                            <IonLabel>
-                              <p className="flex items-center">
-                                {reply.user}
-                                <span className="mx-2">
-                                  &bull;
-                                </span>
-                                {relativify(reply.time)}
-                              </p>
-
-                              <IonText>
-                                <div dangerouslySetInnerHTML={{ __html: reply.content }} />
-                              </IonText>
-                            </IonLabel>
-                          </IonItem>
-                        ))}
-                    </IonList>
-                  ))}
-                </>
-              )}
+            {comments && comments.map(comment => (
+              <IonList key={comment.id} className="mb-2">
+                <CommentItem
+                  comment={comment}
+                  collapsedThreads={collapsedThreads}
+                  toggleCollapse={toggleCollapse}
+                />
+              </IonList>
+            ))}
           </>
         )}
         {isPending && <IonSpinner className="my-8 w-full" />}
