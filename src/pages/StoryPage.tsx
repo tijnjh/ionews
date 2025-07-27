@@ -75,7 +75,7 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent color="light" fullscreen>
+      <IonContent color="light">
         <IonRefresher
           slot="fixed"
           onIonRefresh={async (e) => {
