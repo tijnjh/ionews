@@ -51,7 +51,10 @@ export function CommentItem({ comment, collapsedThreads, toggleCollapse, level =
             {!isCollapsed && (
               <div>
                 <IonText>
-                  <div dangerouslySetInnerHTML={{ __html: comment.content }} />
+                  <div
+                    className="text-[0.875rem] flex flex-col gap-[1lh]"
+                    dangerouslySetInnerHTML={{ __html: comment.content }}
+                  />
                 </IonText>
               </div>
             )}
