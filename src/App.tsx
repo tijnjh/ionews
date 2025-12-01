@@ -1,10 +1,12 @@
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react'
+import { IonApp, IonIcon, IonLabel, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs, setupIonicReact } from '@ionic/react'
 import { IonReactRouter } from '@ionic/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useHead } from '@unhead/react'
+import { home, search } from 'ionicons/icons'
 import { useEffect, useState } from 'react'
 import { Route } from 'react-router'
 import HomePage from './pages/HomePage.tsx'
+import SearchPage from './pages/SearchPage.tsx'
 import StoryPage from './pages/StoryPage.tsx'
 import '@ionic/react/css/core.css'
 import '@ionic/react/css/normalize.css'
@@ -47,10 +49,25 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <IonApp>
         <IonReactRouter>
-          <IonRouterOutlet>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/story/:id" component={StoryPage} />
-          </IonRouterOutlet>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/" render={() => <HomePage />} />
+              <Route exact path="/story/:id" component={StoryPage} />
+              <Route exact path="/search" component={SearchPage} />
+            </IonRouterOutlet>
+
+            <IonTabBar slot="bottom">
+              <IonTabButton tab="home" href="/">
+                <IonIcon icon={home} />
+                <IonLabel>Frontpage</IonLabel>
+              </IonTabButton>
+
+              <IonTabButton tab="search" href="/search">
+                <IonIcon icon={search} />
+                <IonLabel>Search</IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
         </IonReactRouter>
       </IonApp>
     </QueryClientProvider>

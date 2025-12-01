@@ -1,19 +1,27 @@
-import type { Story } from '@/lib/types'
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonTitle, IonToolbar } from '@ionic/react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { logoGithub } from 'ionicons/icons'
-import { ofetch } from 'ofetch'
 import { Fragment } from 'react'
+import * as v from 'valibot'
 import StoryListing from '@/components/StoryListing'
+// import StoryListing from '@/components/StoryListing'
+import { api } from '@/lib/api'
+import { Story } from '@/lib/schemas/story'
 
 export default function HomePage() {
-  async function fetchStories({ pageParam }: { pageParam: unknown }) {
-    return await ofetch(`https://node-hnapi.herokuapp.com/news?page=${pageParam}`)
-  }
-
-  const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery<Story[]>({
+  const { isPending, data, refetch, fetchNextPage, hasNextPage, error } = useInfiniteQuery({
     queryKey: ['stories'],
-    queryFn: fetchStories,
+    queryFn: async ({ pageParam }) => {
+      return await api('/search', {
+        params: {
+          tags: 'front_page',
+          page: pageParam - 1,
+        },
+        schema: v.object({
+          hits: v.array(Story),
+        }),
+      })
+    },
     initialPageParam: 1,
     getNextPageParam: (_, allPages) => allPages.length + 1,
   })
@@ -52,7 +60,7 @@ export default function HomePage() {
         </IonHeader>
 
         {isPending && <IonSpinner className="my-8 w-full" />}
-
+        {/*
         <IonList>
           {data?.pages.map(stories => (
             <Fragment key={stories[0].id}>
@@ -61,15 +69,24 @@ export default function HomePage() {
               ))}
             </Fragment>
           ))}
+        </IonList> */}
+
+        <IonList>
+          {data?.pages.map(page => (
+            <Fragment key={page.hits[0]?.objectID}>
+              {page.hits.map(story => (
+                <StoryListing key={story.objectID} story={story} />
+              ))}
+            </Fragment>
+          ))}
         </IonList>
 
         <IonInfiniteScroll
-          onIonInfinite={(e) => {
-            fetchNextPage().finally(() => {
-              e.target.complete()
-            })
+          disabled={!hasNextPage}
+          onIonInfinite={async (e) => {
+            await fetchNextPage()
+            e.target.complete()
           }}
-          threshold="100px"
         >
           <IonInfiniteScrollContent />
         </IonInfiniteScroll>

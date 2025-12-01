@@ -1,23 +1,16 @@
 /* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
+import type { RouteComponentProps } from 'react-router'
 import type { Story } from '@/lib/types'
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonToolbar } from '@ionic/react'
 import { useQuery } from '@tanstack/react-query'
 import { arrowUp, openOutline } from 'ionicons/icons'
 import { haptic } from 'ios-haptics'
-import { ofetch } from 'ofetch'
 import { useEffect, useState } from 'react'
 import { CommentItem } from '@/components/CommentItem'
+import { api } from '@/lib/api'
 import { formatUrl, relativify } from '@/lib/utils'
 
-interface StoryPageProps {
-  match: {
-    params: {
-      id: string
-    }
-  }
-}
-
-export default function StoryPage({ match: { params } }: StoryPageProps) {
+export default function StoryPage({ match: { params } }: RouteComponentProps<{ id: string }>) {
   const [collapsedThreads, setCollapsedThreads] = useState<Set<number>>(() => new Set())
   const [story, setStory] = useState<Story>()
   const [comments, setComments] = useState<Story['comments']>()
@@ -32,8 +25,8 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
   const url = `https://node-hnapi.herokuapp.com/item/${params.id}`
 
   const { isPending, data, refetch } = useQuery<Story>({
-    queryKey: [`story-${params.id}`],
-    queryFn: () => ofetch(url),
+    queryKey: ['story', params.id],
+    queryFn: async () => await api(`/items/${params.id}`, { schema: Story }),
   })
 
   useEffect(() => {

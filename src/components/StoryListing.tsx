@@ -1,4 +1,4 @@
-import type { Story } from '@/lib/types'
+import type { Story } from '@/lib/schemas/story'
 import { IonAvatar, IonIcon, IonItem, IonLabel, IonNote } from '@ionic/react'
 import { arrowUp } from 'ionicons/icons'
 import { formatUrl, relativify } from '@/lib/utils'
@@ -6,10 +6,10 @@ import { formatUrl, relativify } from '@/lib/utils'
 export default function StoryListing({ story }: { story: Story }) {
   return (
     <IonItem
-      routerLink={`/story/${story.id}`}
+      routerLink={`/story/${story.story_id}`}
       onClick={() => {
         sessionStorage.setItem(
-          String(story.id),
+          String(story.story_id),
           JSON.stringify(story),
         )
       }}
@@ -32,8 +32,8 @@ export default function StoryListing({ story }: { story: Story }) {
           {story.points}
           <IonIcon icon={arrowUp} />
           <span className="mx-2">&bull;</span>
-          <span className="shrink-0">{relativify(story.time)}</span>
-          {story.url.startsWith('http') && (
+          <span className="shrink-0">{relativify(story.created_at_i)}</span>
+          {story.url?.startsWith('http') && (
             <>
               <span className="mx-2">&bull;</span>
               <span className="truncate">
@@ -43,7 +43,7 @@ export default function StoryListing({ story }: { story: Story }) {
           )}
         </h3>
       </IonLabel>
-      <IonNote>{story.comments_count}</IonNote>
+      <IonNote>{story.num_comments}</IonNote>
     </IonItem>
   )
 }

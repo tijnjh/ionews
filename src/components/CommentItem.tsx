@@ -1,5 +1,5 @@
 /* eslint-disable react-dom/no-dangerously-set-innerhtml */
-import type { Story } from '@/lib/types'
+import type { Story } from '@/lib/schemas/story'
 import { IonIcon, IonItem, IonLabel, IonText } from '@ionic/react'
 import { chevronDown, chevronUp } from 'ionicons/icons'
 import { relativify } from '@/lib/utils'
@@ -14,7 +14,7 @@ interface CommentItemProps {
 
 export function CommentItem({ comment, collapsedThreads, toggleCollapse, level = 0 }: CommentItemProps) {
   const isCollapsed = collapsedThreads.has(comment.id)
-  const depthColor = `var(--rainbow-depth-${((level % 7))})`
+  const depthColor = `var(--rainbow-depth-${level % 7})`
 
   return (
     <>

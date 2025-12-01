@@ -16,13 +16,14 @@
     "date-fns": "^4.1.0",
     "ionicons": "^8.0.13",
     "ios-haptics": "^0.1.4",
-    "ofetch": "^1.5.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "tailwindcss": "^4.1.17",
-    "typecatch": "^0.2.5"
+    "typecatch": "^0.2.5",
+    "up-fetch": "^2.5.0",
+    "valibot": "^1.2.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^6.2.0",
