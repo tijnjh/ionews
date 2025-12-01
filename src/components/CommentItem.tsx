@@ -2,7 +2,7 @@
 import type { Story } from '@/lib/types'
 import { IonIcon, IonItem, IonLabel, IonText } from '@ionic/react'
 import { chevronDown, chevronUp } from 'ionicons/icons'
-import { relativify } from '@/lib/utils'
+import { preprocessHtml } from '@/lib/utils'
 import './rainbow.css'
 
 interface CommentItemProps {
@@ -43,7 +43,7 @@ export function CommentItem({ comment, collapsedThreads, toggleCollapse, level =
               <span className="mx-2">
                 &bull;
               </span>
-              {relativify(comment.time)}
+              {comment.time_ago}
               <span className="ml-auto">
                 <IonIcon icon={!isCollapsed ? chevronUp : chevronDown} />
               </span>
@@ -53,7 +53,7 @@ export function CommentItem({ comment, collapsedThreads, toggleCollapse, level =
                 <IonText>
                   <div
                     className="text-[0.875rem] flex flex-col gap-[1lh]"
-                    dangerouslySetInnerHTML={{ __html: comment.content }}
+                    dangerouslySetInnerHTML={{ __html: preprocessHtml(comment.content) }}
                   />
                 </IonText>
               </div>

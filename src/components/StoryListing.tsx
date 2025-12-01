@@ -1,7 +1,7 @@
 import type { Story } from '@/lib/types'
 import { IonAvatar, IonIcon, IonItem, IonLabel, IonNote } from '@ionic/react'
 import { arrowUp } from 'ionicons/icons'
-import { formatUrl, relativify } from '@/lib/utils'
+import { formatUrl } from '@/lib/utils'
 
 export default function StoryListing({ story }: { story: Story }) {
   return (
@@ -32,7 +32,7 @@ export default function StoryListing({ story }: { story: Story }) {
           {story.points}
           <IonIcon icon={arrowUp} />
           <span className="mx-2">&bull;</span>
-          <span className="shrink-0">{relativify(story.time)}</span>
+          <span className="shrink-0">{story.time_ago}</span>
           {story.url.startsWith('http') && (
             <>
               <span className="mx-2">&bull;</span>

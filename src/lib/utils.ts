@@ -1,12 +1,3 @@
-import { formatDistanceToNow } from 'date-fns'
-
-export function relativify(uts: number) {
-  const timestamp = uts * 1000
-  const date = new Date(timestamp)
-  const formatted = formatDistanceToNow(date, { addSuffix: true })
-  return formatted.replace('about', '')
-}
-
 export function formatUrl(url: string) {
   const parsedUrl = URL.parse(url)
 
@@ -16,4 +7,8 @@ export function formatUrl(url: string) {
 
   const hostname = parsedUrl?.hostname
   return hostname?.startsWith('www.') ? hostname.replace('www.', '') : hostname
+}
+
+export function preprocessHtml(html: string): string {
+  return html.replaceAll(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
 }

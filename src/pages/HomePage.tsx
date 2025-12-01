@@ -2,18 +2,16 @@ import type { Story } from '@/lib/types'
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInfiniteScroll, IonInfiniteScrollContent, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonTitle, IonToolbar } from '@ionic/react'
 import { useInfiniteQuery } from '@tanstack/react-query'
 import { logoGithub } from 'ionicons/icons'
-import { ofetch } from 'ofetch'
 import { Fragment } from 'react'
 import StoryListing from '@/components/StoryListing'
+import { api } from '@/lib/api'
 
 export default function HomePage() {
-  async function fetchStories({ pageParam }: { pageParam: unknown }) {
-    return await ofetch(`https://node-hnapi.herokuapp.com/news?page=${pageParam}`)
-  }
-
-  const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery<Story[]>({
+  const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
     queryKey: ['stories'],
-    queryFn: fetchStories,
+    queryFn: ({ pageParam }) => api<Story[]>('/news', {
+      params: { page: pageParam },
+    }),
     initialPageParam: 1,
     getNextPageParam: (_, allPages) => allPages.length + 1,
   })

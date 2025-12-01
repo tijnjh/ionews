@@ -1,26 +1,16 @@
-/* eslint-disable react-hooks-extra/no-direct-set-state-in-use-effect */
+import type { RouteComponentProps } from 'react-router'
 import type { Story } from '@/lib/types'
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRefresher, IonRefresherContent, IonSpinner, IonToolbar } from '@ionic/react'
 import { useQuery } from '@tanstack/react-query'
 import { arrowUp, openOutline } from 'ionicons/icons'
 import { haptic } from 'ios-haptics'
-import { ofetch } from 'ofetch'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { CommentItem } from '@/components/CommentItem'
-import { formatUrl, relativify } from '@/lib/utils'
+import { api } from '@/lib/api'
+import { formatUrl } from '@/lib/utils'
 
-interface StoryPageProps {
-  match: {
-    params: {
-      id: string
-    }
-  }
-}
-
-export default function StoryPage({ match: { params } }: StoryPageProps) {
+export default function StoryPage({ match: { params } }: RouteComponentProps<{ id: string }>) {
   const [collapsedThreads, setCollapsedThreads] = useState<Set<number>>(() => new Set())
-  const [story, setStory] = useState<Story>()
-  const [comments, setComments] = useState<Story['comments']>()
 
   function toggleCollapse(commentId: number) {
     haptic()
@@ -29,30 +19,15 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
     setCollapsedThreads(newSet)
   }
 
-  const url = `https://node-hnapi.herokuapp.com/item/${params.id}`
-
-  const { isPending, data, refetch } = useQuery<Story>({
+  const { isPending, data, refetch } = useQuery({
     queryKey: [`story-${params.id}`],
-    queryFn: () => ofetch(url),
+    queryFn: () => api<Story>(`/item/${params.id}`),
   })
 
-  useEffect(() => {
-    if (!story) {
-      const sessionStory = sessionStorage.getItem(params.id)
-      if (sessionStory) {
-        setStory(JSON.parse(sessionStory))
-      }
-      else if (data) {
-        setStory(data)
-      }
-    }
-  }, [data, story, params.id])
+  const sessionStory = sessionStorage.getItem(params.id)
+  const story = sessionStory ? JSON.parse(sessionStory) as Story : data
 
-  useEffect(() => {
-    if (data?.comments) {
-      setComments(data.comments)
-    }
-  }, [data])
+  const comments = data?.comments || story?.comments || []
 
   const isExternalLink = story?.url.startsWith('http')
 
@@ -111,8 +86,12 @@ export default function StoryPage({ match: { params } }: StoryPageProps) {
                     <span className="mx-2">
                       &bull;
                     </span>
+                    {story.user}
+                    <span className="mx-2">
+                      &bull;
+                    </span>
                     <span className="shrink-0">
-                      {relativify(story.time)}
+                      {story.time_ago}
                     </span>
                     {isExternalLink && (
                       <>
