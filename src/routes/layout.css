@@ -1,2 +1,7 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+
+html,
+body {
+	@apply bg-mist-800 text-white;
+}
