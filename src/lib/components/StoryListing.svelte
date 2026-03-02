@@ -15,7 +15,7 @@
 		src={`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`}
 	/>
 
-	<div class="title">{story.title}</div>
+	<div class="title" style="view-transition-name: story-title-{story.id}">{story.title}</div>
 	<div>
 		<span>{story.points} points</span>
 		<span>{story.comments_count} comments</span>

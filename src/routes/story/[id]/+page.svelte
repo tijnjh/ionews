@@ -3,8 +3,11 @@
 	import CommentItem from '$lib/components/CommentItem.svelte';
 	import type { Story } from '$lib/types';
 	import { getReadableHtml } from '$lib/utils.remote';
+	import { TextMorph } from '$lib/utils/torph';
 	import type { PageProps } from './$types';
 	import { haptic } from 'ios-haptics';
+	import { resource } from 'runed';
+	import { fly } from 'svelte/transition';
 
 	const { params }: PageProps = $props();
 
@@ -18,28 +21,49 @@
 		newSet[newSet.has(commentId) ? 'delete' : 'add'](commentId);
 		collapsedThreads = newSet;
 	}
+
+	const storyHtml = resource(
+		() => `readable-${story.url}`,
+		() => getReadableHtml(story.url)
+	);
+
+	const text = $derived.by(() => {
+		if (storyHtml.loading) {
+			return `Loading reader view`;
+		} else if (storyHtml.error) {
+			return `Failed to load reader view`;
+		} else if (storyHtml.current) {
+			return undefined;
+		} else {
+			return 'No URL available for this story.';
+		}
+	});
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-[1fr_30rem] p-4 gap-8">
-	<div class="prose-invert prose-sl prose-neutral prose mx-auto">
-		<hgroup class="mt-16">
-			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
-			<a href={story.url} target="_blank">
-				<h1>{story.title}</h1>
-			</a>
-		</hgroup>
+	<div class="prose-invert prose-sl prose-neutral prose mx-auto w-full md:pt-16">
+		<!--  eslint-disable-next-line svelte/no-navigation-without-resolve -->
+		<a href={story.url} target="_blank" class="decoration-0 hover:decoration-2">
+			<h1 style="view-transition-name: story-title-{story.id}">{story.title}</h1>
+		</a>
 
-		{#await getReadableHtml(story.url)}
-			<div
-				class="w-full px-3 py-4 flex items-center justify-center gap-4 rounded-md animate-pulse bg-mist-700"
-			>
-				<div class="size-4 border-2 border-dashed animate-spin rounded-full"></div>
-				Fetching reader view...
+		{#if text}
+			<div class="flex gap-2 items-center">
+				{#if storyHtml.loading}
+					<div
+						class="size-3 border border-mist-800 border-t-mist-400 rounded-full animate-spin"
+					></div>
+				{/if}
+				<TextMorph {text} />
 			</div>
-		{:then storyHtml}
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			{@html storyHtml?.content}
-		{/await}
+		{/if}
+
+		{#if storyHtml.current}
+			<div transition:fly={{ y: 50 }}>
+				<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+				{@html storyHtml.current.content}
+			</div>
+		{/if}
 	</div>
 
 	<div

@@ -45,7 +45,8 @@
 		"ios-haptics": "^0.1.4",
 		"isomorphic-dompurify": "^2.36.0",
 		"jsdom": "^28.1.0",
-		"snarkdown": "^2.0.0",
+		"runed": "^0.37.1",
+		"ts-pattern": "^5.9.0",
 		"up-fetch": "^2.5.1",
 		"valibot": "^1.2.0"
 	}
