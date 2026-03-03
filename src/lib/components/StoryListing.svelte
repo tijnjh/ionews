@@ -7,7 +7,7 @@
 
 <a
 	href={resolve('/story/[id]', { id: story.id.toString() })}
-	class="rounded-2xl p-4 mb-2 grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 bg-mist-700"
+	class="rounded-2xl shadow p-4 mb-2 grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 bg-mist-200-800"
 >
 	<img
 		alt="favicon"
@@ -15,7 +15,7 @@
 		src={`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`}
 	/>
 
-	<div class="title" style="view-transition-name: story-title-{story.id}">{story.title}</div>
+	<div class="title w-fit" style="view-transition-name: story-title-{story.id}">{story.title}</div>
 	<div>
 		<span>{story.points} points</span>
 		<span>{story.comments_count} comments</span>

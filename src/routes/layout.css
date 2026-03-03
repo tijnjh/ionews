@@ -1,9 +1,11 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
+@import 'tailwind-color-pairings';
 
 html,
 body {
-	@apply bg-mist-800 text-white;
+	color-scheme: light dark;
+	@apply bg-mist-50-950 text-mist-950-50;
 }
 
 @view-transition {

@@ -41,17 +41,17 @@
 </script>
 
 <div class="grid grid-cols-1 md:grid-cols-[1fr_30rem] p-4 gap-8">
-	<div class="prose-invert prose-sl prose-neutral prose mx-auto w-full md:pt-16">
+	<div class="dark:prose-invert prose-sl prose-neutral prose mx-auto w-full md:pt-16">
 		<!--  eslint-disable-next-line svelte/no-navigation-without-resolve -->
 		<a href={story.url} target="_blank" class="decoration-0 hover:decoration-2">
-			<h1 style="view-transition-name: story-title-{story.id}">{story.title}</h1>
+			<h1 class="w-fit" style="view-transition-name: story-title-{story.id}">{story.title}</h1>
 		</a>
 
 		{#if text}
 			<div class="flex gap-2 items-center">
 				{#if storyHtml.loading}
 					<div
-						class="size-3 border border-mist-800 border-t-mist-400 rounded-full animate-spin"
+						class="size-3 border border-mist-200-800 border-t-mist-600-400 rounded-full animate-spin"
 					></div>
 				{/if}
 				<TextMorph {text} />
@@ -67,7 +67,7 @@
 	</div>
 
 	<div
-		class="md:sticky md:top-4 md:max-h-[calc(100dvh-2rem)] overflow-auto p-4 rounded-xl bg-mist-900"
+		class="md:sticky md:top-4 md:max-h-[calc(100dvh-2rem)] overflow-auto p-4 rounded-xl bg-mist-100-900"
 	>
 		{#each story.comments as comment (comment.id)}
 			<CommentItem {comment} {collapsedThreads} {toggleCollapse} />
