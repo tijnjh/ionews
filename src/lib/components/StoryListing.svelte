@@ -7,7 +7,7 @@
 
 <a
 	href={resolve('/story/[id]', { id: story.id.toString() })}
-	class="rounded-2xl shadow p-4 mb-2 grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 bg-mist-200-800"
+	class="border border-mist-200-800 p-4 mb-2 grid grid-cols-[auto_1fr] gap-x-4 grid-rows-2 bg-mist-100-900"
 >
 	<img
 		alt="favicon"

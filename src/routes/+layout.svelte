@@ -25,5 +25,7 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
-	{@render children()}
+	<div class="p-4 max-w-[65ch] mx-auto flex flex-col gap-8">
+		{@render children()}
+	</div>
 </QueryClientProvider>

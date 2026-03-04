@@ -11,3 +11,7 @@ body {
 @view-transition {
 	navigation: auto;
 }
+
+.prose {
+	@apply wrap-break-word;
+}
