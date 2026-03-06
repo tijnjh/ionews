@@ -1,3 +1,5 @@
+const ANCHOR_TAG_REGEX = /<a /g
+
 export function formatUrl(url: string) {
   const parsedUrl = URL.parse(url)
 
@@ -10,5 +12,8 @@ export function formatUrl(url: string) {
 }
 
 export function preprocessHtml(html: string): string {
-  return html.replaceAll(/<a /g, '<a target="_blank" rel="noopener noreferrer" ')
+  return html.replaceAll(
+    ANCHOR_TAG_REGEX,
+    '<a target="_blank" rel="noopener noreferrer" ',
+  )
 }
