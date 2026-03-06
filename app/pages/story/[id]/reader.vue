@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
@@ -7,19 +8,31 @@ const storyId = computed(() => route.params.id as string)
 
 const { $api } = useNuxtApp()
 
-const { data: story } = await useAsyncData(`story-${storyId.value}`, () => $api<Story>(`/item/${storyId.value}`))
+const {
+  isPending: storyIsPending,
+  data: story,
+} = useQuery({
+  queryKey: [`story-${route.params.id}`],
+  queryFn: () => $api<Story>(`/item/${route.params.id}`),
+})
 
-const { data: readableHtml } = await useAsyncData(
-  `${story.value?.id}-reader`,
-  async () => {
+const {
+  isPending: readerIsPending,
+  data: readableHtml,
+} = useQuery({
+  queryKey: [`story-${route.params.id}-reader`],
+  queryFn: async () => {
     if (!story.value) {
       return
     }
 
-    return await $fetch(`/api/reader?url=${encodeURIComponent(story.value.url)}`)
+    return await $fetch('/api/reader', {
+      params: { url: story.value.url },
+    })
   },
-)
+})
 
+const isPending = computed(() => storyIsPending.value || readerIsPending.value)
 const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 </script>
 
@@ -41,6 +54,9 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
     </IonHeader>
 
     <IonContent color="light">
+      <ion-loading
+        :is-open="isPending"
+      />
       <div class="prose p-4 prose-neutral dark:prose-invert" v-html="readableHtml" />
     </IonContent>
   </IonPage>
