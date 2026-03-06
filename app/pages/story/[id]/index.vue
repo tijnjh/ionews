@@ -24,13 +24,7 @@ const {
   queryFn: () => $api<Story>(`/item/${route.params.id}`),
 })
 
-useHead({
-  title: () => `Story - ${story.value?.title || ''}`,
-})
-
-const comments = computed(
-  () => story.value?.comments || story.value?.comments || [],
-)
+const comments = computed(() => story.value?.comments || [])
 
 const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 </script>
