@@ -5,21 +5,28 @@
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "preview": "nuxt preview"
   },
   "dependencies": {
+    "@ionic/vue": "^8.8.1",
+    "@mozilla/readability": "^0.6.0",
     "@nuxtjs/ionic": "1.0.2",
     "@peterbud/nuxt-query": "1.5.2",
     "@tanstack/vue-query": "^5.92.9",
     "ios-haptics": "^0.1.4",
+    "isomorphic-dompurify": "^3.0.0",
+    "jsdom": "^28.1.0",
     "nuxt": "^4.3.1",
+    "valibot": "^1.2.0",
     "vue": "^3.5.29",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^7.7.0",
+    "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.2.1",
+    "@types/jsdom": "^28.0.0",
     "eslint": "^10.0.2",
     "tailwindcss": "^4.2.1"
   }

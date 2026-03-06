@@ -98,6 +98,18 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
           </IonItem>
         </IonList>
 
+        <IonList>
+          <IonItem
+            v-if="story.comments"
+            class="prose dark:prose-invert max-w-none"
+            :router-link="`/story/${story.id}/reader`"
+          >
+            <IonLabel color="primary">
+              Open reader view
+            </IonLabel>
+          </IonItem>
+        </IonList>
+
         <IonList v-for="comment in comments" :key="comment.id">
           <CommentItem
             :comment="comment"

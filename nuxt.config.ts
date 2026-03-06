@@ -8,4 +8,9 @@ export default defineNuxtConfig({
   vite: {
     plugins: [<any>tailwindcss()],
   },
+  ionic: {
+    config: {
+      mode: 'ios',
+    },
+  },
 })
