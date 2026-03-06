@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 const collapsedThreads = ref<Set<number>>(new Set())
 
 const route = useRoute()
+const storyId = computed(() => route.params.id as string)
 
 function toggleCollapse(commentId: number) {
   haptic()
@@ -20,8 +21,8 @@ const {
   data: story,
   refetch,
 } = useQuery({
-  queryKey: [`story-${route.params.id}`],
-  queryFn: () => $api<Story>(`/item/${route.params.id}`),
+  queryKey: ['story', storyId],
+  queryFn: () => $api<Story>(`/item/${storyId.value}`),
 })
 
 const comments = computed(() => story.value?.comments || [])

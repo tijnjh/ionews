@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/vue-query'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-
 const storyId = computed(() => route.params.id as string)
 
 const { $api } = useNuxtApp()
@@ -12,15 +11,15 @@ const {
   isPending: storyIsPending,
   data: story,
 } = useQuery({
-  queryKey: [`story-${route.params.id}`],
-  queryFn: () => $api<Story>(`/item/${route.params.id}`),
+  queryKey: ['story', storyId],
+  queryFn: () => $api<Story>(`/item/${storyId.value}`),
 })
 
 const {
   isPending: readerIsPending,
   data: readableHtml,
 } = useQuery({
-  queryKey: [`story-${route.params.id}-reader`],
+  queryKey: ['reader', storyId, story.value?.url],
   queryFn: async () => {
     if (!story.value) {
       return
@@ -30,6 +29,7 @@ const {
       params: { url: story.value.url },
     })
   },
+  enabled: () => !!story.value?.url,
 })
 
 const isPending = computed(() => storyIsPending.value || readerIsPending.value)
