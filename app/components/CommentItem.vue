@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AnimateHeight from 'vue-animate-height'
+
 export interface CommentItemProps {
   comment: Story['comments'][0]
   collapsedThreads: Set<number>
@@ -15,6 +17,12 @@ const {
 
 const isCollapsed = computed(() => collapsedThreads.has(comment.id))
 const depthColor = computed(() => `var(--rainbow-depth-${level % 7})`)
+
+const height = ref<string | number>('auto')
+
+watch(isCollapsed, () => {
+  height.value = isCollapsed.value ? 0 : 'auto'
+})
 </script>
 
 <template>
@@ -51,19 +59,19 @@ const depthColor = computed(() => `var(--rainbow-depth-${level % 7})`)
             />
           </span>
         </p>
-        <div v-if="!isCollapsed">
+        <AnimateHeight :height="height">
           <IonText>
             <div
               class="text-[0.875rem] flex flex-col gap-[1lh]"
               v-html="preprocessHtml(comment.content)"
             />
           </IonText>
-        </div>
+        </AnimateHeight>
       </IonLabel>
     </div>
   </IonItem>
 
-  <template v-if="!isCollapsed">
+  <AnimateHeight :height="height">
     <CommentItem
       v-for="reply in comment.comments"
       :key="reply.id"
@@ -72,7 +80,7 @@ const depthColor = computed(() => `var(--rainbow-depth-${level % 7})`)
       :toggle-collapse="toggleCollapse"
       :level="level + 1"
     />
-  </template>
+  </AnimateHeight>
 </template>
 
 <style>
