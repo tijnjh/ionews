@@ -1,24 +1,10 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query'
-import { haptic } from 'ios-haptics'
 import { useRoute } from 'vue-router'
-
-const collapsedThreads = ref<Set<number>>(new Set())
 
 const route = useRoute()
 const storyId = computed(() => route.params.id as string)
 
-function toggleCollapse(commentId: number) {
-  haptic()
-
-  setTimeout(() => {
-    haptic()
-  }, 300)
-
-  const newSet = new Set(collapsedThreads.value)
-  newSet[newSet.has(commentId) ? 'delete' : 'add'](commentId)
-  collapsedThreads.value = newSet
-}
 const { $api } = useNuxtApp()
 
 const {
@@ -110,11 +96,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 
         <template v-if="story.comments.length > 0">
           <IonList v-for="comment in story.comments" :key="comment.id">
-            <CommentItem
-              :comment="comment"
-              :collapsed-threads="collapsedThreads"
-              :toggle-collapse="toggleCollapse"
-            />
+            <CommentItem :comment="comment" />
           </IonList>
         </template>
       </template>

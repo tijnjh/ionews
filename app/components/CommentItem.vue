@@ -1,21 +1,18 @@
 <script setup lang="ts">
+import { haptic } from 'ios-haptics'
 import AnimateHeight from 'vue-animate-height'
-
-export interface CommentItemProps {
-  comment: Story['comments'][0]
-  collapsedThreads: Set<number>
-  toggleCollapse: (commentId: number) => void
-  level?: number
-}
 
 const {
   comment,
-  collapsedThreads,
-  toggleCollapse,
   level = 0,
 } = defineProps<CommentItemProps>()
 
-const isCollapsed = computed(() => collapsedThreads.has(comment.id))
+export interface CommentItemProps {
+  comment: Story['comments'][0]
+  level?: number
+}
+
+const isCollapsed = ref(false)
 const depthColor = computed(() => `var(--rainbow-depth-${level % 7})`)
 
 const height = ref<string | number>('auto')
@@ -23,6 +20,18 @@ const height = ref<string | number>('auto')
 watch(isCollapsed, () => {
   height.value = isCollapsed.value ? 0 : 'auto'
 })
+
+const animateDuration = 256
+
+function toggleCollapse() {
+  haptic()
+
+  setTimeout(() => {
+    haptic()
+  }, 300)
+
+  isCollapsed.value = !isCollapsed.value
+}
 </script>
 
 <template>
@@ -46,7 +55,7 @@ watch(isCollapsed, () => {
       <IonLabel>
         <p
           class="flex items-center cursor-pointer"
-          @click="toggleCollapse(comment.id)"
+          @click="toggleCollapse()"
         >
           {{ comment.user }}
 
@@ -61,7 +70,7 @@ watch(isCollapsed, () => {
         </p>
         <AnimateHeight
           :height="height"
-          :duration="300"
+          :duration="animateDuration"
         >
           <IonText>
             <div
@@ -78,12 +87,10 @@ watch(isCollapsed, () => {
     v-for="reply in comment.comments"
     :key="reply.id"
     :height="height"
-    :duration="300"
+    :duration="animateDuration"
   >
     <CommentItem
       :comment="reply"
-      :collapsed-threads="collapsedThreads"
-      :toggle-collapse="toggleCollapse"
       :level="level + 1"
     />
   </AnimateHeight>
