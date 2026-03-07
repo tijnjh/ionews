@@ -1,3 +1,6 @@
+@import '@rdlabo/ionic-theme-ios26/dist/css/default-variables.css';
+@import '@rdlabo/ionic-theme-ios26/dist/css/ionic-theme-ios26.css';
+
 @layer theme, components, utilities;
 
 @import 'tailwindcss/theme.css' layer(theme);

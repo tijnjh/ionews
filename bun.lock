@@ -8,6 +8,7 @@
         "@mozilla/readability": "^0.6.0",
         "@nuxtjs/ionic": "1.0.2",
         "@peterbud/nuxt-query": "1.5.2",
+        "@rdlabo/ionic-theme-ios26": "^2.3.0",
         "@tanstack/vue-query": "^5.92.9",
         "ios-haptics": "^0.1.4",
         "isomorphic-dompurify": "^3.0.0",
@@ -490,6 +491,8 @@
     "@poppinss/exception": ["@poppinss/exception@1.2.3", "", {}, "sha512-dCED+QRChTVatE9ibtoaxc+WkdzOSjYTKi/+uacHWIsfodVfpsueo3+DKpgU5Px8qXjgmXkSvhXvSCz3fnP9lw=="],
 
     "@quansync/fs": ["@quansync/fs@1.0.0", "", { "dependencies": { "quansync": "^1.0.0" } }, "sha512-4TJ3DFtlf1L5LDMaM6CanJ/0lckGNtJcMjQ1NAV6zDmA0tEHKZtxNKin8EgPaVX1YzljbxckyT2tJrpQKAtngQ=="],
+
+    "@rdlabo/ionic-theme-ios26": ["@rdlabo/ionic-theme-ios26@2.3.0", "", { "peerDependencies": { "@ionic/core": ">= 8.8.1" } }, "sha512-5O/rRdVN3AhSfLQn4KQRDeug8WwXHcXPXDLCCIOhhTB19ggOS7NMjOftnEWUOsJ2zFxeEBafUdnyRgYJOsbnnA=="],
 
     "@rolldown/pluginutils": ["@rolldown/pluginutils@1.0.0-rc.2", "", {}, "sha512-izyXV/v+cHiRfozX62W9htOAvwMo4/bXKDrQ+vom1L1qRuexPock/7VZDAhnpHCLNejd3NJ6hiab+tO0D44Rgw=="],
 

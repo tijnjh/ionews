@@ -1,3 +1,5 @@
+import { isPlatform } from '@ionic/core'
+import { iosTransitionAnimation, popoverEnterAnimation, popoverLeaveAnimation } from '@rdlabo/ionic-theme-ios26'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineNuxtConfig({
@@ -11,6 +13,9 @@ export default defineNuxtConfig({
   ionic: {
     config: {
       mode: 'ios',
+      navAnimation: iosTransitionAnimation,
+      popoverEnter: popoverEnterAnimation,
+      popoverLeave: popoverLeaveAnimation,
     },
   },
 })

@@ -16,8 +16,8 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
 
 <template>
   <IonPage>
-    <IonHeader>
-      <IonToolbar>
+    <IonHeader translucent>
+      <IonToolbar color="light">
         <IonButtons slot="end">
           <IonButton href="https://tijn.dev/ionews" target="_blank">
             <IonIcon :icon="ioniconsLogoGithub" />
@@ -27,7 +27,7 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
       </IonToolbar>
     </IonHeader>
 
-    <IonContent fullscreen>
+    <IonContent fullscreen color="light">
       <IonRefresher
         slot="fixed"
         @ion-refresh="
@@ -41,7 +41,7 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
       </IonRefresher>
 
       <IonHeader collapse="condense">
-        <IonToolbar>
+        <IonToolbar color="light">
           <IonTitle size="large">
             Frontpage
           </IonTitle>
@@ -50,13 +50,14 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
 
       <IonSpinner v-if="isPending" class="my-8 w-full" />
 
-      <IonList>
-        <template v-for="stories in data?.pages">
-          <StoryListing
-            v-for="story in stories"
-            :key="story.id"
-            :story="story"
-          />
+      <IonList inset>
+        <template v-for="stories in data?.pages" :key="stories[0]?.id">
+          <IonItemGroup>
+            <StoryListing
+              v-for="story in stories" :key="story.id"
+              :story="story"
+            />
+          </IonItemGroup>
         </template>
       </IonList>
 

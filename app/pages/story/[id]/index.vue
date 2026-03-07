@@ -21,7 +21,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 
 <template>
   <IonPage>
-    <IonHeader>
+    <IonHeader translucent>
       <IonToolbar>
         <IonButtons slot="start">
           <IonBackButton text="Frontpage" default-href="/" />
@@ -36,7 +36,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
       </IonToolbar>
     </IonHeader>
 
-    <IonContent color="light">
+    <IonContent color="light" fullscreen>
       <IonRefresher
         slot="fixed"
         @ion-refresh="
@@ -50,53 +50,59 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
       </IonRefresher>
 
       <template v-if="story">
-        <IonList class="mb-2">
-          <IonItem
-            :href="isExternalLink ? story.url : undefined"
-            target="_blank"
-          >
-            <IonAvatar slot="start" aria-hidden="true">
-              <img
-                class="rounded-sm! bg-(--gray-5)"
-                :src="`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`"
-              >
-            </IonAvatar>
+        <IonList class="mb-2" inset>
+          <IonItemGroup>
+            <IonItem
+              :href="isExternalLink ? story.url : undefined"
+              target="_blank"
+            >
+              <IonAvatar slot="start" aria-hidden="true">
+                <img
+                  class="rounded-sm! bg-(--gray-5)"
+                  :src="`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`"
+                >
+              </IonAvatar>
 
-            <IonLabel>
-              <h2>{{ story.title }}</h2>
-              <h3 class="flex items-center">
-                {{ story.points }}
-                <IonIcon :icon="ioniconsArrowUp" />
-                <span class="mx-2"> &bull; </span>
-                {{ story.user }}
-                <span class="mx-2"> &bull; </span>
-                <span class="shrink-0">
-                  {{ story.time_ago }}
-                </span>
-                <template v-if="isExternalLink">
+              <IonLabel>
+                <h2>{{ story.title }}</h2>
+                <h3 class="flex items-center">
+                  {{ story.points }}
+                  <IonIcon :icon="ioniconsArrowUp" />
                   <span class="mx-2"> &bull; </span>
-                  <span class="truncate"> {{ formatUrl(story.url) }} </span>
-                </template>
-              </h3>
-            </IonLabel>
-          </IonItem>
+                  {{ story.user }}
+                  <span class="mx-2"> &bull; </span>
+                  <span class="shrink-0">
+                    {{ story.time_ago }}
+                  </span>
+                  <template v-if="isExternalLink">
+                    <span class="mx-2"> &bull; </span>
+                    <span class="truncate"> {{ formatUrl(story.url) }} </span>
+                  </template>
+                </h3>
+              </IonLabel>
+            </IonItem>
+          </IonItemGroup>
         </IonList>
 
-        <IonList>
-          <IonItem
-            v-if="story.comments"
-            :router-link="`/story/${story.id}/reader`"
-          >
-            <IonIcon slot="start" aria-hidden="true" color="primary" :icon="ioniconsReaderOutline" />
-            <IonLabel color="primary">
-              Open reader view
-            </IonLabel>
-          </IonItem>
+        <IonList inset>
+          <IonItemGroup>
+            <IonItem
+              v-if="story.comments"
+              :router-link="`/story/${story.id}/reader`"
+            >
+              <IonIcon slot="start" aria-hidden="true" color="primary" :icon="ioniconsReaderOutline" />
+              <IonLabel color="primary">
+                Open reader view
+              </IonLabel>
+            </IonItem>
+          </IonItemGroup>
         </IonList>
 
         <template v-if="story.comments.length > 0">
-          <IonList v-for="comment in story.comments" :key="comment.id">
-            <CommentItem :comment="comment" />
+          <IonList v-for="comment in story.comments" :key="comment.id" inset>
+            <IonItemGroup>
+              <CommentItem :comment="comment" />
+            </IonItemGroup>
           </IonList>
         </template>
       </template>
