@@ -10,6 +10,11 @@ const storyId = computed(() => route.params.id as string)
 
 function toggleCollapse(commentId: number) {
   haptic()
+
+  setTimeout(() => {
+    haptic()
+  }, 300)
+
   const newSet = new Set(collapsedThreads.value)
   newSet[newSet.has(commentId) ? 'delete' : 'add'](commentId)
   collapsedThreads.value = newSet
@@ -24,8 +29,6 @@ const {
   queryKey: ['story', storyId],
   queryFn: () => $api<Story>(`/item/${storyId.value}`),
 })
-
-const comments = computed(() => story.value?.comments || [])
 
 const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 </script>
@@ -105,13 +108,15 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
           </IonItem>
         </IonList>
 
-        <IonList v-for="comment in comments" :key="comment.id">
-          <CommentItem
-            :comment="comment"
-            :collapsed-threads="collapsedThreads"
-            :toggle-collapse="toggleCollapse"
-          />
-        </IonList>
+        <template v-if="story.comments.length > 0">
+          <IonList v-for="comment in story.comments" :key="comment.id">
+            <CommentItem
+              :comment="comment"
+              :collapsed-threads="collapsedThreads"
+              :toggle-collapse="toggleCollapse"
+            />
+          </IonList>
+        </template>
       </template>
 
       <IonSpinner v-if="isPending" class="my-8 w-full" />

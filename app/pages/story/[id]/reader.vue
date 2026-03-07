@@ -26,7 +26,9 @@ const {
     }
 
     return await $fetch('/api/reader', {
-      params: { url: story.value.url },
+      params: {
+        url: story.value.url,
+      },
     })
   },
   enabled: () => !!story.value?.url,

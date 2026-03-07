@@ -59,7 +59,10 @@ watch(isCollapsed, () => {
             />
           </span>
         </p>
-        <AnimateHeight :height="height">
+        <AnimateHeight
+          :height="height"
+          :duration="300"
+        >
           <IonText>
             <div
               class="text-[0.875rem] flex flex-col gap-[1lh]"
@@ -71,10 +74,13 @@ watch(isCollapsed, () => {
     </div>
   </IonItem>
 
-  <AnimateHeight :height="height">
+  <AnimateHeight
+    v-for="reply in comment.comments"
+    :key="reply.id"
+    :height="height"
+    :duration="300"
+  >
     <CommentItem
-      v-for="reply in comment.comments"
-      :key="reply.id"
       :comment="reply"
       :collapsed-threads="collapsedThreads"
       :toggle-collapse="toggleCollapse"
