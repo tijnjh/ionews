@@ -21,7 +21,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 
 <template>
   <IonPage>
-    <IonHeader>
+    <IonHeader translucent>
       <IonToolbar>
         <IonButtons slot="start">
           <IonBackButton text="Frontpage" default-href="/" />
@@ -36,7 +36,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
       </IonToolbar>
     </IonHeader>
 
-    <IonContent color="light">
+    <IonContent color="light" fullscreen>
       <IonRefresher
         slot="fixed"
         @ion-refresh="
@@ -50,7 +50,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
       </IonRefresher>
 
       <template v-if="story">
-        <IonList class="mb-2">
+        <IonList class="mb-2" inset>
           <IonItem
             :href="isExternalLink ? story.url : undefined"
             target="_blank"
@@ -82,7 +82,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
           </IonItem>
         </IonList>
 
-        <IonList>
+        <IonList inset>
           <IonItem
             v-if="story.comments"
             :router-link="`/story/${story.id}/reader`"
