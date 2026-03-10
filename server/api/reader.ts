@@ -9,6 +9,10 @@ export default defineEventHandler(async (event) => {
     return
   }
 
+  if (typeof url !== 'string') {
+    return
+  }
+
   const response = await fetch(url)
   const rawHtmlString = await response.text()
   const cleanHtmlString = DOMPurify.sanitize(rawHtmlString)
