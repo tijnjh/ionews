@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useInfiniteQuery } from '@tanstack/vue-query'
+import { useMediaQuery } from '@vueuse/core'
 
 const { $api } = useNuxtApp()
 
@@ -12,6 +13,8 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
   initialPageParam: 1,
   getNextPageParam: (_, allPages) => allPages.length + 1,
 })
+
+const isWideScreen = useMediaQuery('(width >= 48rem)')
 </script>
 
 <template>
@@ -29,7 +32,7 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
       </IonToolbar>
     </IonHeader>
 
-    <IonContent fullscreen color="light">
+    <IonContent fullscreen :color="isWideScreen ? 'light' : undefined">
       <IonRefresher
         slot="fixed"
         @ion-refresh="
@@ -43,7 +46,7 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
       </IonRefresher>
 
       <IonHeader collapse="condense">
-        <IonToolbar color="light">
+        <IonToolbar :color="isWideScreen ? 'light' : undefined">
           <IonTitle size="large">
             Frontpage
           </IonTitle>
@@ -52,7 +55,7 @@ const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
 
       <IonSpinner v-if="isPending" class="my-8 w-full" />
 
-      <IonList inset>
+      <IonList :inset="isWideScreen">
         <template v-for="stories in data?.pages">
           <StoryListing
             v-for="story in stories"

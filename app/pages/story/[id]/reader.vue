@@ -40,7 +40,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 
 <template>
   <IonPage>
-    <IonHeader translucent>
+    <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
           <IonBackButton text="Comments" :default-href="`/story/${storyId}`" />
@@ -49,17 +49,17 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
         <IonButtons slot="end">
           <IonButton v-if="isExternalLink" :href="story?.url" target="_blank">
             {{ story?.url && formatUrl(story.url) }}
-            <IonIcon slot="end" :icon="ioniconsOpenOutline" />
+            <IonIcon slot="end" :ios="ioniconsOpenOutline" :md="ioniconsOpenSharp" />
           </IonButton>
         </IonButtons>
       </IonToolbar>
     </IonHeader>
 
-    <IonContent color="light" fullscreen>
+    <IonContent color="light">
       <ion-loading
         :is-open="isPending"
       />
-      <div class="prose p-4 prose-neutral dark:prose-invert" v-html="readableHtml" />
+      <div class="prose p-4 prose-neutral dark:prose-invert mx-auto" v-html="readableHtml" />
     </IonContent>
   </IonPage>
 </template>

@@ -19,7 +19,7 @@ const { story } = defineProps<{ story: Story }>()
       <h2>{{ story.title }}</h2>
       <h3 class="flex items-center">
         {{ story.points }}
-        <IonIcon :icon="ioniconsArrowUp" />
+        <IonIcon :ios="ioniconsArrowUp" :md="ioniconsArrowUpSharp" />
         <span class="mx-2">&bull;</span>
         <span class="shrink-0">{{ story.time_ago }}</span>
         <template v-if="story.url.startsWith('http')">
