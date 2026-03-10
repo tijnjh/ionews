@@ -25,11 +25,6 @@ const animateDuration = 256
 
 function toggleCollapse() {
   haptic()
-
-  setTimeout(() => {
-    haptic()
-  }, 300)
-
   isCollapsed.value = !isCollapsed.value
 }
 </script>
