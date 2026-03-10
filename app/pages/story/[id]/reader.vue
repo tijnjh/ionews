@@ -1,41 +1,35 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
-import { useRoute } from 'vue-router'
+  import { useQuery } from "@tanstack/vue-query";
+  import { useRoute } from "vue-router";
 
-const route = useRoute()
-const storyId = computed(() => route.params.id as string)
+  const route = useRoute();
+  const storyId = computed(() => route.params.id as string);
 
-const { $api } = useNuxtApp()
+  const { $api } = useNuxtApp();
 
-const {
-  isPending: storyIsPending,
-  data: story,
-} = useQuery({
-  queryKey: ['story', storyId],
-  queryFn: () => $api<Story>(`/item/${storyId.value}`),
-})
+  const { isPending: storyIsPending, data: story } = useQuery({
+    queryKey: ["story", storyId],
+    queryFn: () => $api<Story>(`/item/${storyId.value}`),
+  });
 
-const {
-  isPending: readerIsPending,
-  data: readableHtml,
-} = useQuery({
-  queryKey: ['reader', storyId, story.value?.url],
-  queryFn: async () => {
-    if (!story.value) {
-      return
-    }
+  const { isPending: readerIsPending, data: readableHtml } = useQuery({
+    queryKey: ["reader", storyId, story.value?.url],
+    queryFn: async () => {
+      if (!story.value) {
+        return;
+      }
 
-    return await $fetch('/api/reader', {
-      params: {
-        url: story.value.url,
-      },
-    })
-  },
-  enabled: () => !!story.value?.url,
-})
+      return await $fetch("/api/reader", {
+        params: {
+          url: story.value.url,
+        },
+      });
+    },
+    enabled: () => !!story.value?.url,
+  });
 
-const isPending = computed(() => storyIsPending.value || readerIsPending.value)
-const isExternalLink = computed(() => story.value?.url.startsWith('http'))
+  const isPending = computed(() => storyIsPending.value || readerIsPending.value);
+  const isExternalLink = computed(() => story.value?.url.startsWith("http"));
 </script>
 
 <template>
@@ -56,9 +50,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
     </IonHeader>
 
     <IonContent color="light">
-      <ion-loading
-        :is-open="isPending"
-      />
+      <ion-loading :is-open="isPending" />
       <div class="prose p-4 prose-neutral dark:prose-invert mx-auto" v-html="readableHtml" />
     </IonContent>
   </IonPage>

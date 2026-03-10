@@ -1,25 +1,25 @@
 <script setup lang="ts">
-import { useQuery } from '@tanstack/vue-query'
-import { useMediaQuery } from '@vueuse/core'
-import { useRoute } from 'vue-router'
+  import { useQuery } from "@tanstack/vue-query";
+  import { useMediaQuery } from "@vueuse/core";
+  import { useRoute } from "vue-router";
 
-const route = useRoute()
-const storyId = computed(() => route.params.id as string)
+  const route = useRoute();
+  const storyId = computed(() => route.params.id as string);
 
-const { $api } = useNuxtApp()
+  const { $api } = useNuxtApp();
 
-const {
-  isPending,
-  data: story,
-  refetch,
-} = useQuery({
-  queryKey: ['story', storyId],
-  queryFn: () => $api<Story>(`/item/${storyId.value}`),
-})
+  const {
+    isPending,
+    data: story,
+    refetch,
+  } = useQuery({
+    queryKey: ["story", storyId],
+    queryFn: () => $api<Story>(`/item/${storyId.value}`),
+  });
 
-const isExternalLink = computed(() => story.value?.url.startsWith('http'))
+  const isExternalLink = computed(() => story.value?.url.startsWith("http"));
 
-const isWideScreen = useMediaQuery('(width >= 48rem)')
+  const isWideScreen = useMediaQuery("(width >= 48rem)");
 </script>
 
 <template>
@@ -55,15 +55,12 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
       <div v-if="story" class="md:grid md:grid-cols-2">
         <div class="md:sticky md:top-4">
           <IonList class="mb-2" inset>
-            <IonItem
-              :href="isExternalLink ? story.url : undefined"
-              target="_blank"
-            >
+            <IonItem :href="isExternalLink ? story.url : undefined" target="_blank">
               <IonAvatar slot="start" aria-hidden="true">
                 <img
                   class="rounded-sm! bg-(--gray-5)"
                   :src="`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`"
-                >
+                />
               </IonAvatar>
 
               <IonLabel>
@@ -87,10 +84,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
           </IonList>
 
           <IonList inset>
-            <IonItem
-              v-if="story.comments"
-              :router-link="`/story/${story.id}/reader`"
-            >
+            <IonItem v-if="story.comments" :router-link="`/story/${story.id}/reader`">
               <IonIcon
                 slot="start"
                 aria-hidden="true"
@@ -98,9 +92,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
                 :ios="ioniconsReaderOutline"
                 :md="ioniconsReaderSharp"
               />
-              <IonLabel color="primary">
-                Open reader view
-              </IonLabel>
+              <IonLabel color="primary"> Open reader view </IonLabel>
             </IonItem>
           </IonList>
         </div>

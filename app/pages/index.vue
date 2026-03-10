@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import { useInfiniteQuery } from '@tanstack/vue-query'
-import { useMediaQuery } from '@vueuse/core'
+  import { useInfiniteQuery } from "@tanstack/vue-query";
+  import { useMediaQuery } from "@vueuse/core";
 
-const { $api } = useNuxtApp()
+  const { $api } = useNuxtApp();
 
-const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
-  queryKey: ['stories'],
-  queryFn: ({ pageParam }) =>
-    $api<Story[]>('/news', {
-      params: { page: pageParam },
-    }),
-  initialPageParam: 1,
-  getNextPageParam: (_, allPages) => allPages.length + 1,
-})
+  const { isPending, data, refetch, fetchNextPage } = useInfiniteQuery({
+    queryKey: ["stories"],
+    queryFn: ({ pageParam }) =>
+      $api<Story[]>("/news", {
+        params: { page: pageParam },
+      }),
+    initialPageParam: 1,
+    getNextPageParam: (_, allPages) => allPages.length + 1,
+  });
 
-const isWideScreen = useMediaQuery('(width >= 48rem)')
+  const isWideScreen = useMediaQuery("(width >= 48rem)");
 </script>
 
 <template>
@@ -26,9 +26,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
             <IonIcon :icon="ioniconsLogoGithub" />
           </IonButton>
         </IonButtons>
-        <IonTitle>
-          Frontpage
-        </IonTitle>
+        <IonTitle> Frontpage </IonTitle>
       </IonToolbar>
     </IonHeader>
 
@@ -47,9 +45,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
 
       <IonHeader collapse="condense">
         <IonToolbar :color="isWideScreen ? 'light' : undefined">
-          <IonTitle size="large">
-            Frontpage
-          </IonTitle>
+          <IonTitle size="large"> Frontpage </IonTitle>
         </IonToolbar>
       </IonHeader>
 
@@ -57,11 +53,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
 
       <IonList :inset="isWideScreen">
         <template v-for="stories in data?.pages">
-          <StoryListing
-            v-for="story in stories"
-            :key="story.id"
-            :story="story"
-          />
+          <StoryListing v-for="story in stories" :key="story.id" :story="story" />
         </template>
       </IonList>
 

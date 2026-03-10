@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import '@ionic/vue/css/palettes/dark.system.css'
+  import "@ionic/vue/css/palettes/dark.system.css";
 
-useHead({
-  title: 'ionews',
-})
+  useHead({
+    title: "ionews",
+  });
 </script>
 
 <template>

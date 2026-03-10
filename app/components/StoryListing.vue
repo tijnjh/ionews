@@ -1,19 +1,14 @@
 <script setup lang="ts">
-const { story } = defineProps<{ story: Story }>()
+  const { story } = defineProps<{ story: Story }>();
 </script>
 
 <template>
-  <IonItem
-    :router-link="`/story/${story.id}`"
-    :draggable="false"
-    detail
-    class="select-none"
-  >
+  <IonItem :router-link="`/story/${story.id}`" :draggable="false" detail class="select-none">
     <IonAvatar slot="start" aria-hidden>
       <img
         class="rounded-sm! bg-(--gray-5)"
         :src="`https://www.google.com/s2/favicons?domain=${story.url}&sz=64`"
-      >
+      />
     </IonAvatar>
     <IonLabel>
       <h2>{{ story.title }}</h2>
