@@ -1,5 +1,9 @@
 import antfu from '@antfu/eslint-config'
 
 export default antfu({
-  react: true,
+  formatters: true,
+  vue: true,
+  rules: {
+    'vue/no-deprecated-slot-attribute': 'off',
+  },
 })
