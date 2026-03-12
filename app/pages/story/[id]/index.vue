@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query'
 import { useMediaQuery } from '@vueuse/core'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
+const router = useRouter()
+
 const storyId = computed(() => route.params.id as string)
 
 const { $api } = useNuxtApp()
+
+const historyStateStory = computed(() => {
+  return router.options.history.state?.story as Story | undefined
+})
 
 const {
   isPending,
@@ -15,6 +21,7 @@ const {
 } = useQuery({
   queryKey: ['story', storyId],
   queryFn: () => $api<Story>(`/item/${storyId.value}`),
+  initialData: historyStateStory.value,
 })
 
 const isExternalLink = computed(() => story.value?.url.startsWith('http'))
@@ -105,7 +112,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
           </IonList>
         </div>
 
-        <div>
+        <div v-if="story.comments">
           <template v-if="story.comments.length > 0">
             <IonListHeader>
               <IonLabel>{{ story.comments_count }} Comments</IonLabel>

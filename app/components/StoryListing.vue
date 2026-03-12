@@ -4,10 +4,28 @@ const { story } = defineProps<{ story: Story }>()
 
 <template>
   <IonItem
-    :router-link="`/story/${story.id}`"
     :draggable="false"
     detail
+    button
     class="select-none"
+    @click="navigateTo({
+      path: `/story/${story.id}`,
+      state: {
+        story: {
+          title: story.title,
+          url: story.url,
+          id: story.id,
+          points: story.points,
+          time_ago: story.time_ago,
+          comments_count: story.comments_count,
+          user: story.user,
+          type: story.type,
+          domain: story.domain,
+          time: story.time,
+          comments: [],
+        } satisfies Partial<Story>,
+      },
+    })"
   >
     <IonAvatar slot="start" aria-hidden>
       <img
