@@ -12,25 +12,25 @@
     "@ionic/vue": "^8.8.1",
     "@mozilla/readability": "^0.6.0",
     "@nuxtjs/ionic": "1.0.2",
-    "@peterbud/nuxt-query": "1.5.2",
-    "@tanstack/vue-query": "^5.92.9",
+    "@peterbud/nuxt-query": "1.6.0",
+    "@tanstack/vue-query": "^5.92.10",
     "@vueuse/core": "^14.2.1",
     "ios-haptics": "^0.1.4",
-    "isomorphic-dompurify": "^3.0.0",
-    "jsdom": "^28.1.0",
-    "nuxt": "^4.3.1",
-    "valibot": "^1.2.0",
-    "vue": "^3.5.29",
+    "isomorphic-dompurify": "^3.5.1",
+    "jsdom": "^29.0.0",
+    "nuxt": "^4.4.2",
+    "valibot": "^1.3.0",
+    "vue": "^3.5.30",
     "vue-animate-height": "^1.1.2",
-    "vue-router": "^4.6.4"
+    "vue-router": "^5.0.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^7.7.0",
+    "@antfu/eslint-config": "^7.7.3",
     "@tailwindcss/typography": "^0.5.19",
-    "@tailwindcss/vite": "^4.2.1",
+    "@tailwindcss/vite": "^4.2.2",
     "@types/jsdom": "^28.0.0",
-    "eslint": "^10.0.2",
+    "eslint": "^10.0.3",
     "eslint-plugin-format": "^2.0.1",
-    "tailwindcss": "^4.2.1"
+    "tailwindcss": "^4.2.2"
   }
 }
