@@ -1,27 +1,21 @@
 <script setup lang="ts">
 import { useQuery } from '@tanstack/vue-query'
 import { useMediaQuery } from '@vueuse/core'
-import { useRoute, useRouter } from 'vue-router'
+import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const router = useRouter()
 
 const storyId = computed(() => route.params.id as string)
 
 const { $api } = useNuxtApp()
 
-const historyStateStory = computed(() => {
-  return router.options.history.state?.story as Story | undefined
-})
-
 const {
-  isPending,
+  isLoading,
   data: story,
   refetch,
 } = useQuery({
   queryKey: ['story', storyId],
   queryFn: () => $api<Story>(`/item/${storyId.value}`),
-  initialData: historyStateStory.value,
 })
 
 const isExternalLink = computed(() => story.value?.url.startsWith('http'))
@@ -59,7 +53,9 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
         <IonRefresherContent />
       </IonRefresher>
 
-      <div v-if="story" class="md:grid md:grid-cols-2">
+      <IonSpinner v-if="isLoading" class="my-8 w-full" />
+
+      <div v-else-if="story" class="md:grid md:grid-cols-2">
         <div class="md:sticky md:top-4">
           <IonList class="mb-2" inset>
             <IonItem
@@ -123,8 +119,6 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
           </template>
         </div>
       </div>
-
-      <IonSpinner v-if="isPending" class="my-8 w-full" />
     </IonContent>
   </IonPage>
 </template>
