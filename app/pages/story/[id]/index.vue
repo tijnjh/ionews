@@ -73,7 +73,7 @@ const isWideScreen = useMediaQuery('(width >= 48rem)')
                 <h2>{{ story.title }}</h2>
                 <h3 class="flex items-center">
                   {{ story.points }}
-                  <IonIcon :ios="ioniconsArrowUp" :md="ioniconsArrowUpSharp" />
+                  <IonIcon :ios="ioniconsArrowUp" :md="ioniconsArrowUpSharp" class="shrink-0" />
                   <span class="mx-2"> &bull; </span>
                   {{ story.user }}
                   <span class="mx-2"> &bull; </span>
