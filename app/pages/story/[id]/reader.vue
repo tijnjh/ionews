@@ -8,7 +8,7 @@ const storyId = computed(() => route.params.id as string)
 const { $api } = useNuxtApp()
 
 const {
-  isPending: storyIsPending,
+  isLoading: storyIsLoading,
   data: story,
 } = useQuery({
   queryKey: ['story', storyId],
@@ -16,7 +16,7 @@ const {
 })
 
 const {
-  isPending: readerIsPending,
+  isLoading: readerIsLoading,
   data: readableHtml,
 } = useQuery({
   queryKey: ['reader', storyId, story.value?.url],
@@ -34,7 +34,7 @@ const {
   enabled: () => !!story.value?.url,
 })
 
-const isPending = computed(() => storyIsPending.value || readerIsPending.value)
+const isPending = computed(() => storyIsLoading.value || readerIsLoading.value)
 const isExternalLink = computed(() => story.value?.url.startsWith('http'))
 </script>
 
@@ -56,9 +56,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
     </IonHeader>
 
     <IonContent color="light">
-      <ion-loading
-        :is-open="isPending"
-      />
+      <IonSpinner v-if="isPending" class="my-8 w-full" />
       <div class="prose p-4 prose-neutral dark:prose-invert mx-auto" v-html="readableHtml" />
     </IonContent>
   </IonPage>

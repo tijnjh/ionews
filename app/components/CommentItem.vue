@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { IonItemOptions } from '@ionic/vue'
 import { haptic } from 'ios-haptics'
 import AnimateHeight from 'vue-animate-height'
 
@@ -27,56 +28,77 @@ function toggleCollapse() {
   haptic()
   isCollapsed.value = !isCollapsed.value
 }
+
+if (level === 0) {
+  provide('collapseTopLevelComment', () => {
+    haptic()
+    isCollapsed.value = true
+  })
+}
+const collapseTopLevelComment = inject<() => void>('collapseTopLevelComment') ?? toggleCollapse
 </script>
 
 <template>
-  <IonItem
-    :style="{
-      'paddingInlineStart': `${level * 0.75}rem`,
-      '--padding-start': 0,
-      '--padding-end': 0,
-      '--inner-padding-start': 0,
-      '--inner-padding-end': 0,
-    }"
-  >
-    <div
-      class="top-2 absolute rounded-full w-0.5 h-[calc(100%-1rem)]"
+  <IonItemSliding>
+    <IonItem
+      :id="comment.id"
       :style="{
-        backgroundColor: depthColor,
+        'paddingInlineStart': `${level * 0.75}rem`,
+        '--padding-start': 0,
+        '--padding-end': 0,
+        '--inner-padding-start': 0,
+        '--inner-padding-end': 0,
       }"
-    />
+    >
+      <div
+        class="top-2 absolute rounded-full w-0.5 h-[calc(100%-1rem)]"
+        :style="{
+          backgroundColor: depthColor,
+        }"
+      />
 
-    <div class="px-4 py-2 w-full">
-      <IonLabel>
-        <p
-          class="flex items-center cursor-pointer"
-          @click="toggleCollapse()"
-        >
-          {{ comment.user }}
+      <div class="px-4 py-2 w-full">
+        <IonLabel>
+          <p
+            class="flex items-center cursor-pointer"
+            @click="toggleCollapse()"
+          >
+            {{ comment.user }}
 
-          <span class="mx-2">&bull;</span>
+            <span class="mx-2">&bull;</span>
 
-          {{ comment.time_ago }}
-          <span class="ml-auto">
-            <IonIcon
-              :icon="!isCollapsed ? ioniconsChevronUp : ioniconsChevronDown"
-            />
-          </span>
-        </p>
-        <AnimateHeight
-          :height="height"
-          :duration="animateDuration"
-        >
-          <IonText>
-            <div
-              class="text-[0.875rem] flex flex-col gap-[1lh]"
-              v-html="preprocessHtml(comment.content)"
-            />
-          </IonText>
-        </AnimateHeight>
-      </IonLabel>
-    </div>
-  </IonItem>
+            {{ comment.time_ago }}
+            <span class="ml-auto">
+              <IonIcon
+                :icon="!isCollapsed ? ioniconsChevronUp : ioniconsChevronDown"
+              />
+            </span>
+          </p>
+          <AnimateHeight
+            :height="height"
+            :duration="animateDuration"
+          >
+            <IonText>
+              <div
+                class="text-[0.875rem] flex flex-col gap-[1lh]"
+                v-html="preprocessHtml(comment.content)"
+              />
+            </IonText>
+          </AnimateHeight>
+        </IonLabel>
+      </div>
+    </IonItem>
+
+    <IonItemOptions>
+      <IonItemOption @click="collapseTopLevelComment">
+        <IonIcon
+          slot="icon-only"
+          :md="ioniconsChevronCollapseSharp"
+          :ios="ioniconsChevronCollapse"
+        />
+      </IonItemOption>
+    </IonItemOptions>
+  </IonItemSliding>
 
   <AnimateHeight
     v-for="reply in comment.comments"
