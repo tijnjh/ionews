@@ -43,7 +43,7 @@ const isExternalLink = computed(() => story.value?.url.startsWith('http'))
     <IonHeader>
       <IonToolbar>
         <IonButtons slot="start">
-          <IonBackButton text="Comments" :default-href="`/story/${storyId}`" />
+          <IonBackButton text="Back" :default-href="`/story/${storyId}`" />
         </IonButtons>
 
         <IonButtons slot="end">
