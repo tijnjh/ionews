@@ -53,7 +53,7 @@ const { story } = defineProps<{ story: Story }>()
     </IonItem>
 
     <IonItemOptions>
-      <IonItemOption expandable :router-link="`/story/${story.id}/reader`">
+      <IonItemOption :router-link="`/story/${story.id}/reader`">
         <IonIcon
           slot="icon-only"
           :ios="ioniconsReaderOutline"
