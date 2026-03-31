@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { IonItemOptions } from '@ionic/vue'
-import { haptic } from 'ios-haptics'
 import AnimateHeight from 'vue-animate-height'
 
 const {
@@ -25,13 +24,11 @@ watch(isCollapsed, () => {
 const animateDuration = 256
 
 function toggleCollapse() {
-  haptic()
   isCollapsed.value = !isCollapsed.value
 }
 
 if (level === 0) {
   provide('collapseTopLevelComment', () => {
-    haptic()
     isCollapsed.value = true
   })
 }
@@ -59,10 +56,11 @@ const collapseTopLevelComment = inject<() => void>('collapseTopLevelComment') ??
 
       <div class="px-4 py-2 w-full">
         <IonLabel>
-          <p
+          <label
             class="flex items-center cursor-pointer"
-            @click="toggleCollapse()"
           >
+            <input v-model="isCollapsed" type="checkbox" switch class="hidden">
+
             {{ comment.user }}
 
             <span class="mx-2">&bull;</span>
@@ -73,7 +71,7 @@ const collapseTopLevelComment = inject<() => void>('collapseTopLevelComment') ??
                 :icon="!isCollapsed ? ioniconsChevronUp : ioniconsChevronDown"
               />
             </span>
-          </p>
+          </label>
           <AnimateHeight
             :height="height"
             :duration="animateDuration"
