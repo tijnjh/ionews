@@ -56,22 +56,25 @@ const collapseTopLevelComment = inject<() => void>('collapseTopLevelComment') ??
 
       <div class="px-4 py-2 w-full">
         <IonLabel>
-          <label
-            class="flex items-center cursor-pointer"
-          >
-            <input v-model="isCollapsed" type="checkbox" switch class="hidden">
+          <p>
+            <label
+              class="flex items-center cursor-pointer"
+            >
 
-            {{ comment.user }}
+              <input v-model="isCollapsed" type="checkbox" switch class="hidden">
 
-            <span class="mx-2">&bull;</span>
+              {{ comment.user }}
 
-            {{ comment.time_ago }}
-            <span class="ml-auto">
-              <IonIcon
-                :icon="!isCollapsed ? ioniconsChevronUp : ioniconsChevronDown"
-              />
-            </span>
-          </label>
+              <span class="mx-2">&bull;</span>
+
+              {{ comment.time_ago }}
+              <span class="ml-auto">
+                <IonIcon
+                  :icon="!isCollapsed ? ioniconsChevronUp : ioniconsChevronDown"
+                />
+              </span>
+            </label>
+          </p>
           <AnimateHeight
             :height="height"
             :duration="animateDuration"
